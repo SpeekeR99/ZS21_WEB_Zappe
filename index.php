@@ -1,5 +1,7 @@
 <?php
 
+require_once("settings.inc.php");
+
 ?>
 <!doctype html>
 <html lang="cs">
@@ -17,7 +19,7 @@
         <div>Něco</div>
     </article>
         <footer>
-            (c) 2021
+            &copy; 2021
         </footer>
     </body>
 </html>
