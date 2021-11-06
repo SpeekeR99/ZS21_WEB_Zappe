@@ -6,13 +6,6 @@
 class TemplateHTML {
 
     /**
-     * Pripojeni CSS
-     */
-    public function __construct() {
-        require_once("style.css");
-    }
-
-    /**
      * Vytvori hlavicku HTML stranky, az po obsah
      * @param string $pageTitle Nazev stranky
      */
@@ -24,7 +17,7 @@ class TemplateHTML {
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title><?php echo $pageTitle; ?></title>
-            <link rel="stylesheet" href="style.css">
+            <link rel="stylesheet" href="Views/style.css">
         </head>
         <body>
             <h1><?php echo $pageTitle; ?></h1>
