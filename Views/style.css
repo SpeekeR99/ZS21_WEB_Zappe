@@ -1,0 +1,14 @@
+nav {
+    background-color: green;
+    padding: 10px;
+}
+
+nav a {
+    margin: 0px 10px;
+}
+
+footer {
+    padding: 10px;
+    background-color: antiquewhite;
+    text-align: center;
+}
