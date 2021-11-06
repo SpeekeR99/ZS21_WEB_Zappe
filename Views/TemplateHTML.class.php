@@ -46,6 +46,7 @@ class TemplateHTML {
                 </div>
             </nav>
             <br>
+            <div class="container">
 <?php
     }
 
@@ -54,9 +55,11 @@ class TemplateHTML {
      */
     public function getHTMLFooter() {
         ?>
+            </div>
             <br>
-            <footer>
-                &copy; 2021
+            <footer class="container-fluid bg-dark text-white text-center font-weight-bold">
+                &copy; 2021<br>
+                <span class="fa fa-cog fa-spin"></span>
                 <script src="bootstrap/js/bootstrap.js"></script>
             </footer>
         </body>
