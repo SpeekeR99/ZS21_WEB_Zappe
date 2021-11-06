@@ -1,8 +1,11 @@
 <?php
 
 require_once("settings.inc.php");
+require_once("appStart.class.php");
 
 ?>
+
+
 <!doctype html>
 <html lang="cs">
     <head>
