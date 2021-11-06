@@ -17,16 +17,33 @@ class TemplateHTML {
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title><?php echo $pageTitle; ?></title>
-            <link rel="stylesheet" href="Views/style.css">
+            <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+            <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         </head>
         <body>
-            <h1><?php echo $pageTitle; ?></h1>
-            <nav>
-                <?php
-                    foreach(WEB_PAGES as $key => $pInfo){
-                        echo "<a href='index.php?page=$key'>$pInfo[title]</a>";
-                    }
-                ?>
+            <header class="container fw-bold">
+                <h1><?php echo $pageTitle; ?></h1>
+            </header>
+            <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                        <ul class="navbar-nav">
+                            <?php
+                            foreach(WEB_PAGES as $key => $pInfo) {
+                                echo "<li class='nav-item>'><a class='nav-link' href='index.php?page=$key'>$pInfo[title]</a></li>";
+                            }
+                            ?>
+                        </ul>
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class='nav-item>'><a class='nav-link' href="#"><span class="fa fa-user"></span> Sign Up</a></li>
+                            <li class='nav-item>'><a class='nav-link' href="#"><span class="fa fa-sign-in"></span> Login</a></li>
+                            <li class='nav-item>'><a class='nav-link' href="#"><span class="fa fa-sign-out"></span> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
             </nav>
             <br>
 <?php
@@ -40,6 +57,7 @@ class TemplateHTML {
             <br>
             <footer>
                 &copy; 2021
+                <script src="bootstrap/js/bootstrap.js"></script>
             </footer>
         </body>
         </html>
