@@ -17,8 +17,8 @@ class TemplateHTML {
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title><?php echo $pageTitle; ?></title>
-            <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-            <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+            <link rel="stylesheet" href="composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
+            <link rel="stylesheet" href="composer/vendor/components/font-awesome/css/font-awesome.min.css">
         </head>
         <body>
             <header class="container fw-bold">
@@ -60,7 +60,7 @@ class TemplateHTML {
             <footer class="container-fluid bg-dark text-white text-center font-weight-bold">
                 &copy; 2021<br>
                 <span class="fa fa-cog fa-spin"></span>
-                <script src="bootstrap/js/bootstrap.js"></script>
+                <script src="composer/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
             </footer>
         </body>
         </html>

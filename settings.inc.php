@@ -14,13 +14,11 @@ const DB_PASS = "";
 /* - - - - - Tabulky v DB - - - - - */
 
 /** Tabulka s uzivateli */
-const TABLE_USERS = "spweb_users";
-/** Tabulka s pravy */
-const TABLE_RIGHTS = "spweb_rights";
-/** Tabulka s recenzemi */
-const TABLE_REVIEWS = "spweb_reviews";
+const TABLE_USERS = "users";
+/** Tabulka s clanky */
+const TABLE_ARTICLES = "articles";
 /** Tabulka s hodnocenimi */
-const TABLE_RATINGS = "spweb_ratings";
+const TABLE_RATINGS = "ratings";
 
 /* - - - - - Stanky webu - - - - - */
 

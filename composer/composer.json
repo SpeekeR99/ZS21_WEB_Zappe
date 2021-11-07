@@ -1,0 +1,14 @@
+{
+    "description": "Composer",
+    "require": {
+        "twig/twig" : ">=1.0",
+        "components/font-awesome": "4.7.0",
+        "twbs/bootstrap" : ">=4.1"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        },
+        "sort-packages": true
+    }
+}
