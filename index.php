@@ -13,7 +13,7 @@ $pageInfo = WEB_PAGES[$pageKey];
 // Pripojim si odpovidajici ovladac
 require_once(DIR_CONTROLLERS."/".$pageInfo["file_name"]);
 // Vytvorim instanci odpovidajiciho ovladace
-/** @var IController $controller */
+/** @var AController $controller */
 $controller = new $pageInfo["class_name"];
 // Necham ovladac vyrobit data
 $data = $controller->prepData($pageInfo["title"]);

@@ -4,28 +4,43 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title | striptags }}</title>
+    <link rel="stylesheet" href="../composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../composer/vendor/components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="composer/vendor/components/font-awesome/css/font-awesome.min.css">
-</head>
+</head>.
     <body>
         <header class="container fw-bold">
             <h1>{{ title | striptags }}</h1>
         </header>
-        <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
+        <nav class="container navbar navbar-expand-md bg-dark navbar-dark sticky-top">
             <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
                         {% for page in nav %}
-                        <li class='nav-item>'><a class='nav-link' href={{ page.href }}'>{{ page.title }}</a></li>
+                            <li class='nav-item'><a class='nav-link' href="{{ page.href }}">{{ page.title }}</a></li>
                         {% endfor %}
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class='nav-item>'><a class='nav-link' href="#"><span class="fa fa-user"></span> Sign Up</a></li>
-                        <li class='nav-item>'><a class='nav-link' href="#"><span class="fa fa-sign-in"></span> Login</a></li>
-                        <li class='nav-item>'><a class='nav-link' href="#"><span class="fa fa-sign-out"></span> Logout</a></li>
+                        {% if not uzivatel.logged %}
+                            <li class='nav-item'><a class='nav-link' href="#"><span class="fa fa-user"></span> Sign Up</a></li>
+                            <li class='nav-item'><a class='nav-link' href="#"><span class="fa fa-sign-in"></span> Login</a></li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle navbar-brand" href="#" role="button" data-bs-toggle="dropdown">
+                                    <img src="data/img_avatar.png" alt="Not found" style="width:25px;" class="rounded-pill"> Můj účet
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Moje údaje</a></li>
+                                    <li><a class="dropdown-item" href="#">Moje články</a></li>
+                                    <li><a class="dropdown-item" href="#">Moje hodnocení</a></li>
+                                </ul>
+                            </li>
+                            <li class='nav-item'><a class='nav-link' href="#"><span class="fa fa-sign-out"></span> Logout</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -39,7 +54,7 @@
 
         </div>
         <br>
-        <footer class="container-fluid bg-dark text-white text-center font-weight-bold">
+        <footer class="container bg-dark text-white text-center font-weight-bold">
             &copy; 2021<br>
             <span class="fa fa-cog fa-spin"></span>
             <script src="composer/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
