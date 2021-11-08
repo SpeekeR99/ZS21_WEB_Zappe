@@ -8,24 +8,21 @@ require_once(DIR_CONTROLLERS."/IController.interface.php");
 class UvodController implements IController {
 
     /**
-     * Vraci HTML obsah uvodni stranky
+     * Vraci pole dat pro sablonu uvodni stranky
      * @param string $pageTitle Nazev stranky
-     * @return string HTML z view
+     * @return array Data pro twig sablonu
      */
-    public function show(string $pageTitle): string {
-        // Data pro view
-        global $data;
+    public function prepData(string $pageTitle): array {
+        // Data pro sablonu
         $data = [];
         // Nazev stranky
         $data["title"] = $pageTitle;
+        // Nav
+        $data["nav"] = WEB_PAGES;
+        // Obsah stranky
+        $data["obsah"] = "<h3>HELLO WORLD!</h3>";
 
-        // Output buffer
-        ob_start();
-        // Pripojeni + vykonani sablony
-        require(DIR_VIEWS."/UvodTemplate.tpl.php");
-        // Output buffer do promenne obsah a ta se vrati (obsah stranky)
-        $obsah = ob_get_clean();
-        return $obsah;
+        return $data;
     }
 }
 

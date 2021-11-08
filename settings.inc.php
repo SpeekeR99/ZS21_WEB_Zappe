@@ -35,9 +35,11 @@ const DEFAULT_WEB_PAGE_KEY = "uvod";
 /** Vsechny webove stranky */
 const WEB_PAGES = array(
     "uvod" => array(
+        "href" => "index.php?page=uvod",
         "title" => "Úvodní stránka",
         "file_name" => "UvodController.class.php",
         "class_name" => "UvodController",
+        "template" => "UvodTemplate.twig"
     )
 );
 

@@ -6,12 +6,12 @@
 interface IController {
 
     /**
-     * Metoda show musi zajistit spravne vykresleni dane stranky
+     * Metoda prepData musi zajistit spravna data pro sablonu
      *
      * @param string $pageTitle Nazev stranky
-     * @return string HTML stranky
+     * @return array Data pro twig sablonu
      */
-    public function show(string $pageTitle):string;
+    public function prepData(string $pageTitle): array;
 
 }
 
