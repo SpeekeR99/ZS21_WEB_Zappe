@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="composer/vendor/components/font-awesome/css/font-awesome.min.css">
 </head>.
-    <body>
-        <header class="container fw-bold">
+    <body class="bg-light">
+        <header class="container bg-secondary fw-bold">
             <h1>{{ title | striptags }}</h1>
         </header>
         <nav class="container navbar navbar-expand-md bg-dark navbar-dark sticky-top">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span> MENU
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav mb-2 mb-lg-0">
@@ -46,14 +46,13 @@
             </div>
         </nav>
         <br>
-        <div class="container">
+        <div class="container bg-secondary">
 
             {% block obsah %}
 
             {% endblock obsah %}
 
         </div>
-        <br>
         <footer class="container bg-dark text-white text-center font-weight-bold">
             &copy; 2021<br>
             <span class="fa fa-cog fa-spin"></span>
