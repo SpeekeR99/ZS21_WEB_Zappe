@@ -13,6 +13,7 @@ class UvodController extends AController {
      * @return array Data pro twig sablonu
      */
     public function prepData(string $pageTitle): array {
+        $this->processForm();
         $this->prepBasicData($pageTitle);
 
         // Obsah stranky
