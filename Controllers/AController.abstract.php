@@ -16,8 +16,8 @@ abstract class AController {
      * Konstruktor inicializuje session a db pro praci se Session a Databazi
      */
     public function __construct() {
-        require_once("Models/UserLoggingManager.class.php");
-        require_once("Models/MyDatabase.class.php");
+        require_once(DIR_MODELS."/UserLoggingManager.class.php");
+        require_once(DIR_MODELS."/MyDatabase.class.php");
         $this->loginManager = new UserLoggingManager();
         $this->db = new MyDatabase();
     }
@@ -34,25 +34,26 @@ abstract class AController {
      * Metoda zajisti zakladni genericka data spolecna pro vsechny controllery a sablony
      * @param string $pageTitle Nazev stranky
      */
-    public function prepBasicData(string $pageTitle) {
+    protected function prepBasicData(string $pageTitle) {
         // Data pro sablonu
         $this->data = [];
         // Nazev stranky
         $this->data["title"] = $pageTitle;
         // Nav
-        $this->data["nav"] = WEB_PAGES;
+        $this->data["nav"] = NAV_WEB_PAGES;
         // Info o uzivateli
-        $this->data["uzivatel"] = [
+        $this->data["user"] = [
 //            "logged" => $this->session->isSession($this->userSessionKey),
             "logged" => $this->loginManager->isUserLogged(),
-            "nick" => "Admin"
+            "nick" => "NickName Here",
+            "pravo" => 3
         ];
     }
 
     /**
      * Metoda pro zpracovani odeslanych formularu
      */
-    public function processForm() {
+    protected function processForm() {
         if (isset($_POST["action"])) {
             if ($_POST["action"] == "login") {
                 $this->loginManager->userLogin();

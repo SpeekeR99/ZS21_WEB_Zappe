@@ -35,11 +35,56 @@ const DEFAULT_WEB_PAGE_KEY = "uvod";
 /** Vsechny webove stranky */
 const WEB_PAGES = array(
     "uvod" => array(
+        "title" => "Úvodní stránka",
+        "file_name" => "UvodController.class.php",
+        "class_name" => "UvodController",
+        "template" => "UvodTemplate.twig"
+    ),
+    "clanky" => array(
+        "title" => "Články",
+        "file_name" => "ClankyController.class.php",
+        "class_name" => "ClankyController",
+        "template" => "ClankyTemplate.twig"
+    ),
+    "novy_clanek" => array(
+        "title" => "Přidat nový článek",
+        "file_name" => "PridatClanekController.class.php",
+        "class_name" => "PridatClanek",
+        "template" => "PridatClanekTemplate.twig"
+    ),
+    "sprava" => array(
+        "title" => "Správa uživatelů",
+        "file_name" => "SpravaUzivateluController.class.php",
+        "class_name" => "SpravaUzivatelu",
+        "template" => "SpravaUzivateluTemplate.twig"
+    )
+);
+
+/** Webové stránky pro navigaci */
+const NAV_WEB_PAGES = array(
+    "uvod" => array(
+        "pravo" => 0,
         "href" => "index.php?page=uvod",
         "title" => "Úvodní stránka",
         "file_name" => "UvodController.class.php",
         "class_name" => "UvodController",
         "template" => "UvodTemplate.twig"
+    ),
+    "clanky" => array(
+        "pravo" => 0,
+        "href" => "index.php?page=clanky",
+        "title" => "Články",
+        "file_name" => "ClankyController.class.php",
+        "class_name" => "ClankyController",
+        "template" => "ClankyTemplate.twig"
+    ),
+    "sprava" => array(
+        "pravo" => 5,
+        "href" => "index.php?page=sprava",
+        "title" => "Správa uživatelů",
+        "file_name" => "SpravaUzivateluController.class.php",
+        "class_name" => "SpravaUzivatelu",
+        "template" => "SpravaUzivateluTemplate.twig"
     )
 );
 
