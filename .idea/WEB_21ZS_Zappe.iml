@@ -8,6 +8,7 @@
       <excludeFolder url="file://$MODULE_DIR$/composer/vendor/symfony/polyfill-ctype" />
       <excludeFolder url="file://$MODULE_DIR$/composer/vendor/symfony/polyfill-mbstring" />
       <excludeFolder url="file://$MODULE_DIR$/composer/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/composer/vendor/components/jquery" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

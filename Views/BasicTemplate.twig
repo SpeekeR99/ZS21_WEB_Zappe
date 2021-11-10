@@ -4,15 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title | striptags }}</title>
-    <link rel="stylesheet" href="../composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../composer/vendor/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css"> {# for PHPStorm #}
+    <link rel="stylesheet" href="../composer/vendor/components/font-awesome/css/font-awesome.min.css"> {# for PHPStorm #}
     <link rel="stylesheet" href="composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="composer/vendor/components/font-awesome/css/font-awesome.min.css">
 </head>.
     <body class="bg-light">
-        <header class="container bg-secondary fw-bold">
-            <h1>{{ title | striptags }}</h1>
-        </header>
         <nav class="container navbar navbar-expand-md bg-dark navbar-dark sticky-top">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -33,7 +30,7 @@
                         {% else %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle navbar-brand" href="#" role="button" data-bs-toggle="dropdown">
-                                    <img src="data/img_avatar.png" alt="Not found" style="width:25px;" class="rounded-pill">{{ user.nick }}
+                                    <img id="profile_pic" src="data/default_avatar.png" alt="Not found" style="width:25px;" class="rounded-pill">{{ user.nick }}
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">Moje údaje</a></li>
@@ -47,6 +44,10 @@
                 </div>
             </div>
         </nav>
+        <br>
+        <header class="container bg-secondary fw-bold">
+            <h1>{{ title | striptags }}</h1>
+        </header>
         <br>
         <div class="container bg-secondary">
 
@@ -69,6 +70,15 @@
             &copy; 2021<br>
             <span class="fa fa-cog fa-spin"></span>
             <script src="composer/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script src="composer/vendor/components/jquery/jquery.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    {# Pokud ma uzivatel profilovy obrazek, zmeni se k nemu cesta #}
+                    {% if user.picture is defined %}
+                        document.getElementById("profile_pic").src = "{{ user.picture }}";
+                    {% endif %}
+                })
+            </script>
         </footer>
     </body>
 </html>

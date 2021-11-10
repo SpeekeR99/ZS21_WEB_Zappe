@@ -46,7 +46,8 @@ abstract class AController {
 //            "logged" => $this->session->isSession($this->userSessionKey),
             "logged" => $this->loginManager->isUserLogged(),
             "nick" => "NickName Here",
-            "pravo" => 3
+            "pravo" => 3,
+            "picture" => "data/my_avatar.png"
         ];
     }
 
