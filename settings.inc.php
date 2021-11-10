@@ -49,31 +49,31 @@ const WEB_PAGES = array(
     "novy_clanek" => array(
         "title" => "Přidat nový článek",
         "file_name" => "PridatClanekController.class.php",
-        "class_name" => "PridatClanek",
+        "class_name" => "PridatClanekController",
         "template" => "PridatClanekTemplate.twig"
     ),
     "sprava" => array(
         "title" => "Správa uživatelů",
         "file_name" => "SpravaUzivateluController.class.php",
-        "class_name" => "SpravaUzivatelu",
+        "class_name" => "SpravaUzivateluController",
         "template" => "SpravaUzivateluTemplate.twig"
     ),
-    "reigstrace" => array(
+    "registrace" => array(
         "title" => "Registrace",
         "file_name" => "RegistraceController.class.php",
-        "class_name" => "Registrace",
+        "class_name" => "RegistraceController",
         "template" => "RegistraceTemplate.twig"
     ),
     "login" => array(
         "title" => "Přihlášení",
         "file_name" => "LoginController.class.php",
-        "class_name" => "Login",
+        "class_name" => "LoginController",
         "template" => "LoginTemplate.twig"
     ),
     "profil" => array(
         "title" => "Můj profil",
         "file_name" => "ProfilController.class.php",
-        "class_name" => "Profil",
+        "class_name" => "ProfilController",
         "template" => "ProfilTemplate.twig"
     )
 );

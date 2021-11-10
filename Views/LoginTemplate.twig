@@ -1,0 +1,17 @@
+{% extends "BasicTemplate.twig" %}
+
+{% block obsah %}
+
+    <form method="POST">
+        <fieldset>
+            <input type="text" name="login" placeholder="-- zadejte login nebo email --" required>
+            <br>
+            <input type="password" name="pass" placeholder="-- zadejte heslo --" required>
+        </fieldset>
+        <br>
+        <button type="submit" name="action" value="login">
+            Přihlásit uživatele
+        </button>
+    </form>
+
+{% endblock obsah %}

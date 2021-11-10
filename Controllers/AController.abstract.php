@@ -44,16 +44,16 @@ abstract class AController {
      * Metoda pro zpracovani odeslanych formularu
      */
     protected function processForm() {
+        ob_start();
         if (isset($_POST["action"])) {
-            if ($_POST["action"] == "login") {
+            if ($_POST["action"] == "register") {
+                if (isset($_POST["email"]) && isset($_POST["login"]) && isset($_POST["pass"])) {
+                    $this->loginManager->userRegister($_POST["login"], $_POST["email"], $_POST["pass"]);
+                }
+            }
+            else if ($_POST["action"] == "login") {
                 if (isset($_POST["login"]) && isset($_POST["pass"])) {
-                    $user = $this->loginManager->userLogin($_POST["login"], $_POST["pass"]);
-                    $this->data["user"]["id_user"] = $user["id_user"];
-                    $this->data["user"]["login"] = $user["login"];
-                    $this->data["user"]["email"] = $user["email"];
-                    $this->data["user"]["pass"] = $user["pass"];
-                    $this->data["user"]["picture"] = $user["picture"];
-                    $this->data["user"]["rights"] = intval($user["rights"]);
+                    $this->data["user"] = $this->loginManager->userLogin($_POST["login"], $_POST["pass"]);
                 }
             }
             else if($_POST["action"] == "logout") {
@@ -61,6 +61,12 @@ abstract class AController {
             }
         }
         $this->data["user"]["logged"] = $this->loginManager->isUserLogged();
+        $prompt = ob_get_clean();
+        if (explode(' ',trim($prompt))[0] == "ERROR:") {
+            $this->data["error"] = $prompt;
+        } else {
+            $this->data["prompt"] = $prompt;
+        }
     }
 
 }

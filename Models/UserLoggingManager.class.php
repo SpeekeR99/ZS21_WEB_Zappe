@@ -29,6 +29,11 @@ class UserLoggingManager {
      * @param string $pass Heslo uzivatele
      */
     public function userRegister(string $login, string $email, string $pass) {
+        // Osetreni XSS
+        $login = htmlspecialchars($login);
+        $email = htmlspecialchars($email);
+        $pass = htmlspecialchars($pass);
+
         $hash = password_hash($pass, PASSWORD_BCRYPT);
         $q = "INSERT INTO ".TABLE_USERS." (login, email, pass) VALUES (:login, :email, :passw);";
         $out = $this->pdo->prepare($q);
@@ -36,10 +41,9 @@ class UserLoggingManager {
         $out->bindValue(":email", $email);
         $out->bindValue(":passw", $hash);
         if ($out->execute()) {
-            $this->userLogin($login, $pass);
             echo "Registrován nový uživatel.";
         } else {
-            echo "Registrace uživatele se nezdařila.";
+            echo "ERROR: Registrace uživatele se nezdařila.";
         }
     }
 
@@ -50,15 +54,26 @@ class UserLoggingManager {
      * @return array|false|null Uzivatel jako pole nebo NULL
      */
     public function userLogin(string $login, string $pass) {
+        // Osetreni XSS
+        $login = htmlspecialchars($login);
+        $pass = htmlspecialchars($pass);
+
         $q = "SELECT * FROM ".TABLE_USERS." WHERE login=:login OR email=:login;";
         $out = $this->pdo->prepare($q);
         $out->bindValue(":login", $login);
         if ($out->execute()) {
             $user = $out->fetchAll();
-//            if (password_verify($pass, $user[0]["pass"])) {
-                $this->session->addSession(self::USER_SESSION_KEY, $user[0]["id_user"]);
-                return $user[0];
-//            }
+            if (count($user) > 0) {
+                if (password_verify($pass, $user[0]["pass"])) {
+                    echo "Přihlášení se zdařilo.";
+                    $this->session->addSession(self::USER_SESSION_KEY, $user[0]["id_user"]);
+                    return $user[0];
+                } else {
+                    echo "ERROR: Špatné heslo!";
+                }
+            } else {
+                echo "ERROR: Špatný login!";
+            }
         }
         return null;
     }

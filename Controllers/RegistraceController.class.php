@@ -5,10 +5,10 @@ require_once(DIR_CONTROLLERS."/AController.abstract.php");
 /**
  * Ovladac pro vypis uvodni stranky
  */
-class UvodController extends AController {
+class RegistraceController extends AController {
 
     /**
-     * Vraci pole dat pro sablonu uvodni stranku
+     * Vraci pole dat pro sablonu registracni stranku
      * @param string $pageTitle Nazev stranky
      * @return array Data pro twig sablonu
      */
@@ -17,7 +17,7 @@ class UvodController extends AController {
         $this->prepBasicData($pageTitle);
 
         // Obsah stranky
-        $this->data["obsah"] = "<h3>HELLO WORLD!</h3>";
+        $this->data["obsah"] = "<h3>Registrace</h3>";
 
         return $this->data;
     }
