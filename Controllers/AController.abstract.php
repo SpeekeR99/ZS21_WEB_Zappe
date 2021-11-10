@@ -24,7 +24,6 @@ abstract class AController {
 
     /**
      * Metoda prepData musi zajistit spravna data pro sablonu
-     *
      * @param string $pageTitle Nazev stranky
      * @return array Data pro twig sablonu
      */
@@ -35,20 +34,10 @@ abstract class AController {
      * @param string $pageTitle Nazev stranky
      */
     protected function prepBasicData(string $pageTitle) {
-        // Data pro sablonu
-        $this->data = [];
         // Nazev stranky
         $this->data["title"] = $pageTitle;
-        // Nav
+        // Nav webovky
         $this->data["nav"] = NAV_WEB_PAGES;
-        // Info o uzivateli
-        $this->data["user"] = [
-//            "logged" => $this->session->isSession($this->userSessionKey),
-            "logged" => $this->loginManager->isUserLogged(),
-            "nick" => "NickName Here",
-            "pravo" => 3,
-            "picture" => "data/my_avatar.png"
-        ];
     }
 
     /**
@@ -57,12 +46,21 @@ abstract class AController {
     protected function processForm() {
         if (isset($_POST["action"])) {
             if ($_POST["action"] == "login") {
-                $this->loginManager->userLogin();
+                if (isset($_POST["login"]) && isset($_POST["pass"])) {
+                    $user = $this->loginManager->userLogin($_POST["login"], $_POST["pass"]);
+                    $this->data["user"]["id_user"] = $user["id_user"];
+                    $this->data["user"]["login"] = $user["login"];
+                    $this->data["user"]["email"] = $user["email"];
+                    $this->data["user"]["pass"] = $user["pass"];
+                    $this->data["user"]["picture"] = $user["picture"];
+                    $this->data["user"]["rights"] = intval($user["rights"]);
+                }
             }
             else if($_POST["action"] == "logout") {
                 $this->loginManager->userLogout();
             }
         }
+        $this->data["user"]["logged"] = $this->loginManager->isUserLogged();
     }
 
 }

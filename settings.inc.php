@@ -57,6 +57,24 @@ const WEB_PAGES = array(
         "file_name" => "SpravaUzivateluController.class.php",
         "class_name" => "SpravaUzivatelu",
         "template" => "SpravaUzivateluTemplate.twig"
+    ),
+    "reigstrace" => array(
+        "title" => "Registrace",
+        "file_name" => "RegistraceController.class.php",
+        "class_name" => "Registrace",
+        "template" => "RegistraceTemplate.twig"
+    ),
+    "login" => array(
+        "title" => "Přihlášení",
+        "file_name" => "LoginController.class.php",
+        "class_name" => "Login",
+        "template" => "LoginTemplate.twig"
+    ),
+    "profil" => array(
+        "title" => "Můj profil",
+        "file_name" => "ProfilController.class.php",
+        "class_name" => "Profil",
+        "template" => "ProfilTemplate.twig"
     )
 );
 

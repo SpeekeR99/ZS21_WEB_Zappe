@@ -5,6 +5,8 @@
  */
 class UserLoggingManager {
 
+    /** @var PDO $pdo PDO objekt pro praci s databazi  */
+    private $pdo;
     /** @var MySession $session Objekt pro spravu Session */
     private $session;
     /** @var string USER_SESSION_KEY Klic pro data uzivatele, ktera jsou ulozena v session. */
@@ -14,17 +16,51 @@ class UserLoggingManager {
      * Konstruktor inicializuje session pro praci se Session
      */
     public function __construct() {
+        $this->pdo = new PDO("mysql:host=".DB_SERVER.";dbname=".DB_NAME, DB_USER, DB_PASS);
+        $this->pdo->exec("set names utf8");
         require_once("MySession.class.php");
         $this->session = new MySession();
     }
 
     /**
-     * Prihlaseni uzivatele, pridani klice do Session
-     * @return bool true pokud se prihlaseni podarilo, false jinak
+     * Registrace noveho uzivatele, pridani uzivatele do databaze s jeho zvolenym jmenem, emailem a heslem
+     * @param string $login Login jmeno zvolene uzivatelem
+     * @param string $email Email uzivatele
+     * @param string $pass Heslo uzivatele
      */
-    public function userLogin() {
-        $this->session->addSession(self::USER_SESSION_KEY, "id");
-        return true;
+    public function userRegister(string $login, string $email, string $pass) {
+        $hash = password_hash($pass, PASSWORD_BCRYPT);
+        $q = "INSERT INTO ".TABLE_USERS." (login, email, pass) VALUES (:login, :email, :passw);";
+        $out = $this->pdo->prepare($q);
+        $out->bindValue(":login", $login);
+        $out->bindValue(":email", $email);
+        $out->bindValue(":passw", $hash);
+        if ($out->execute()) {
+            $this->userLogin($login, $pass);
+            echo "Registrován nový uživatel.";
+        } else {
+            echo "Registrace uživatele se nezdařila.";
+        }
+    }
+
+    /**
+     * Prihlaseni uzivatele za pomoci loginu nebo emailu a spravneho hesla
+     * @param string $login Login jmeno nebo Email uzivatele
+     * @param string $pass Heslo uzivatele
+     * @return array|false|null Uzivatel jako pole nebo NULL
+     */
+    public function userLogin(string $login, string $pass) {
+        $q = "SELECT * FROM ".TABLE_USERS." WHERE login=:login OR email=:login;";
+        $out = $this->pdo->prepare($q);
+        $out->bindValue(":login", $login);
+        if ($out->execute()) {
+            $user = $out->fetchAll();
+//            if (password_verify($pass, $user[0]["pass"])) {
+                $this->session->addSession(self::USER_SESSION_KEY, $user[0]["id_user"]);
+                return $user[0];
+//            }
+        }
+        return null;
     }
 
     /**

@@ -21,10 +21,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `login` VARCHAR(30) NOT NULL,
   `email` VARCHAR(60) NOT NULL,
   `pass` VARCHAR(60) NOT NULL,
-  `rights` INT NOT NULL,
+  `picture` VARCHAR(50) NULL,
+  `rights` INT NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_user`),
-  UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  UNIQUE INDEX `login_UNIQUE` (`login` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
 
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `filepath` VARCHAR(50) NOT NULL,
   `status` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id_article`),
-  INDEX `fk_articles_users_idx` (`id_user` ASC) VISIBLE,
+  INDEX `fk_articles_users_idx` (`id_user` ASC),
   CONSTRAINT `fk_articles_users`
     FOREIGN KEY (`id_user`)
     REFERENCES `users` (`id_user`)
@@ -64,8 +65,8 @@ CREATE TABLE IF NOT EXISTS `ratings` (
   `rating` INT NOT NULL,
   `comment` VARCHAR(500) NULL,
   PRIMARY KEY (`id_rating`),
-  INDEX `fk_ratings_users_idx` (`id_user` ASC) VISIBLE,
-  INDEX `fk_ratings_articles_idx` (`id_article` ASC) VISIBLE,
+  INDEX `fk_ratings_users_idx` (`id_user` ASC),
+  INDEX `fk_ratings_articles_idx` (`id_article` ASC),
   CONSTRAINT `fk_ratings_users`
     FOREIGN KEY (`id_user`)
     REFERENCES `users` (`id_user`)

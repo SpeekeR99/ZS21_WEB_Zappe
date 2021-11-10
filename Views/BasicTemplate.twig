@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title | striptags }}</title>
-    <link rel="stylesheet" href="../composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css"> {# for PHPStorm #}
-    <link rel="stylesheet" href="../composer/vendor/components/font-awesome/css/font-awesome.min.css"> {# for PHPStorm #}
+{#    <link rel="stylesheet" href="../composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">#}
+{#    <link rel="stylesheet" href="../composer/vendor/components/font-awesome/css/font-awesome.min.css">#}
     <link rel="stylesheet" href="composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="composer/vendor/components/font-awesome/css/font-awesome.min.css">
 </head>.
@@ -18,19 +18,19 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         {% for page in nav %}
-                            {% if page.pravo <= user.pravo %}
+                            {% if page.pravo <= user.rights %}
                                 <li class='nav-item'><a class='nav-link' href="{{ page.href }}">{{ page.title }}</a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        {% if not user.logged %}
+                        {% if not user.logged  %}
                             <li class='nav-item'><a class='nav-link' href="#"><span class="fa fa-user"></span> Sign Up</a></li>
                             <li class='nav-item'><a class='nav-link' href="#"><span class="fa fa-sign-in"></span> Login</a></li>
                         {% else %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle navbar-brand" href="#" role="button" data-bs-toggle="dropdown">
-                                    <img id="profile_pic" src="data/default_avatar.png" alt="Not found" style="width:25px;" class="rounded-pill">{{ user.nick }}
+                                    <img id="profile_pic" src="data/default_avatar.png" alt="Not found" style="width:25px;" class="rounded-pill">{{ user.login }}
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">Moje údaje</a></li>
@@ -52,14 +52,26 @@
         <div class="container bg-secondary">
 
             <form method="POST">
-                <button type="submit" name="action" value="login">
-                    Přihlásit uživatele
-                </button>
-                <br>
-                <button type="submit" name="action" value="logout">
-                    Odhlásit uživatele
-                </button>
+                <fieldset>
+                    <input type="text" name="login" placeholder="-- zadejte jméno --">
+                    <input type="password" name="pass" placeholder="-- zadejte heslo --">
+                    <button type="submit" name="action" value="login">
+                        Přihlásit uživatele
+                    </button>
+                </fieldset>
             </form>
+            <br>
+            <br>
+            <form method="POST">
+                <fieldset>
+                    <button type="submit" name="action" value="logout">
+                        Odhlásit uživatele
+                    </button>
+                </fieldset>
+            </form>
+            <br>
+            <br>
+            <br>
 
             {% block obsah %}
 
@@ -73,9 +85,11 @@
             <script src="composer/vendor/components/jquery/jquery.min.js"></script>
             <script>
                 $(document).ready(function() {
+                    {% if user.logged %}
                     {# Pokud ma uzivatel profilovy obrazek, zmeni se k nemu cesta #}
-                    {% if user.picture is defined %}
-                        document.getElementById("profile_pic").src = "{{ user.picture }}";
+                        {% if user.picture is not null %}
+                            document.getElementById("profile_pic").src = "{{ user.picture }}";
+                        {% endif %}
                     {% endif %}
                 })
             </script>
