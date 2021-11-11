@@ -23,11 +23,21 @@ class MySession {
 
     /**
      * Zkontrolovani, jestli Session pod klicem $key existuje
-     * @param string $key klic ktery se kotnroluje
+     * @param string $key klic ktery se kontroluje
      * @return bool true pokud Session existuje, false jinak
      */
     public function isSession(string $key) {
         return isset($_SESSION[$key]);
+    }
+
+    /**
+     * Vraci ID prihlaseneho uzivatele, ID z databaze
+     * @param string $key klic ktereho hodnota se vraci
+     * @return mixed|null ID z DB uzivatele, ktery je prihlasen nebo null
+     */
+    public function readSession(string $key) {
+        if($this->isSession($key)) return $_SESSION[$key];
+        return null;
     }
 
     /**

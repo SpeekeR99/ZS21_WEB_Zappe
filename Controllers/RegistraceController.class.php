@@ -16,9 +16,6 @@ class RegistraceController extends AController {
         $this->processForm();
         $this->prepBasicData($pageTitle);
 
-        // Obsah stranky
-        $this->data["obsah"] = "<h3>Registrace</h3>";
-
         return $this->data;
     }
 }

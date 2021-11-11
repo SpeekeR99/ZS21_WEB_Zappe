@@ -2,18 +2,20 @@
 
 {% block obsah %}
 
-    <form method="POST">
-        <fieldset>
-            <input type="text" name="login" placeholder="-- zadejte login --" required>
+    <div class="container text-center">
+        <form method="POST">
+            <fieldset>
+                <input type="text" name="login" placeholder="-- zadejte login --" required>
+                <br>
+                <input type="email" name="email" placeholder="-- zadejte email --" required>
+                <br>
+                <input type="password" name="pass" placeholder="-- zadejte heslo --" required>
+            </fieldset>
             <br>
-            <input type="email" name="email" placeholder="-- zadejte email --" required>
-            <br>
-            <input type="password" name="pass" placeholder="-- zadejte heslo --" required>
-        </fieldset>
-        <br>
-        <button type="submit" name="action" value="register">
-            Zaregistrovat uživatele
-        </button>
-    </form>
+            <button type="submit" name="action" value="register">
+                Zaregistrovat uživatele
+            </button>
+        </form>
+    </div>
 
 {% endblock obsah %}

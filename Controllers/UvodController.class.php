@@ -17,7 +17,7 @@ class UvodController extends AController {
         $this->prepBasicData($pageTitle);
 
         // Obsah stranky
-        $this->data["obsah"] = "<h3>HELLO WORLD!</h3>";
+        $this->data["obsah"] = "Ahoj";
 
         return $this->data;
     }

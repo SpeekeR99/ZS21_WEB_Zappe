@@ -14,10 +14,7 @@ class LoginController extends AController {
      */
     public function prepData(string $pageTitle): array {
         $this->processForm();
-        $this->prepBasicData($pageTitle);
-
-        // Obsah stranky
-        $this->data["obsah"] = "<h3>Přihlášení</h3>";
+        $this->prepBasicData($pageTitle);;
 
         return $this->data;
     }

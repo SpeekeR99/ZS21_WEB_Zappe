@@ -38,14 +38,17 @@ abstract class AController {
         $this->data["title"] = $pageTitle;
         // Nav webovky
         $this->data["nav"] = NAV_WEB_PAGES;
+        // Prihlaseny uzivatel
+        $this->data["user"] = $this->loginManager->getLoggedUserData();
+        $this->data["user"]["logged"] = $this->loginManager->isUserLogged();
     }
 
     /**
      * Metoda pro zpracovani odeslanych formularu
      */
     protected function processForm() {
-        ob_start();
         if (isset($_POST["action"])) {
+            ob_start();
             if ($_POST["action"] == "register") {
                 if (isset($_POST["email"]) && isset($_POST["login"]) && isset($_POST["pass"])) {
                     $this->loginManager->userRegister($_POST["login"], $_POST["email"], $_POST["pass"]);
@@ -53,19 +56,18 @@ abstract class AController {
             }
             else if ($_POST["action"] == "login") {
                 if (isset($_POST["login"]) && isset($_POST["pass"])) {
-                    $this->data["user"] = $this->loginManager->userLogin($_POST["login"], $_POST["pass"]);
+                    $this->loginManager->userLogin($_POST["login"], $_POST["pass"]);
                 }
             }
             else if($_POST["action"] == "logout") {
                 $this->loginManager->userLogout();
             }
-        }
-        $this->data["user"]["logged"] = $this->loginManager->isUserLogged();
-        $prompt = ob_get_clean();
-        if (explode(' ',trim($prompt))[0] == "ERROR:") {
-            $this->data["error"] = $prompt;
-        } else {
-            $this->data["prompt"] = $prompt;
+            $prompt = ob_get_clean();
+            if (explode(' ',trim($prompt))[0] == "ERROR:") {
+                $this->data["error"] = $prompt;
+            } else {
+                $this->data["prompt"] = $prompt;
+            }
         }
     }
 

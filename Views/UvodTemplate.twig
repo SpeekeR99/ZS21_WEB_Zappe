@@ -2,6 +2,10 @@
 
 {% block obsah %}
 
-    {{ obsah | raw }}
+    {% if user.logged %}
+        <h3>{{ obsah | raw }} {{ user.login | raw }}!</h3>
+    {% else %}
+        <h3> Prosím přihlaš se vpravo nahoře!</h3>
+    {% endif %}
 
 {% endblock obsah %}

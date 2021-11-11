@@ -50,30 +50,34 @@
                 </div>
             </div>
         </nav>
-        <br>
-        <header class="container bg-secondary fw-bold">
+        <header class="container bg-secondary fw-bold text-center border-dark border-bottom">
             <h1>{{ title | striptags }}</h1>
         </header>
-        <br>
-        <div class="container bg-secondary">
+        <div class="container bg-secondary border-dark border-bottom">
+            <br>
+            {% if error is defined and error is not null %}
+                <div class="alert-danger">
+                    <p class="text-center">
+                        {{ error | raw }}
+                    </p>
+                </div>
+            {% endif %}
 
-            <div class="alert-danger">
-                <p class="text-center">
-                    {{ error | raw }}
-                </p>
-            </div>
-            <div class="alert-success">
-                <p class="text-center">
-                    {{ prompt | raw }}
-                </p>
-            </div>
+            {% if prompt is defined and prompt is not null %}
+                <div class="alert-success">
+                    <p class="text-center">
+                        {{ prompt | raw }}
+                    </p>
+                </div>
+            {% endif %}
 
             {% block obsah %}
 
             {% endblock obsah %}
 
+            <br>
         </div>
-        <footer class="container bg-dark text-white text-center font-weight-bold">
+        <footer class="container bg-dark text-white text-center">
             &copy; 2021<br>
             <span class="fa fa-cog fa-spin"></span>
 

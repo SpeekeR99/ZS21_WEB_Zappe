@@ -79,6 +79,31 @@ class UserLoggingManager {
     }
 
     /**
+     * Vraci informace o prihlasenem uzivatele z DB
+     * @return array|null pole s informacemi o uzivateli nebo null
+     */
+    public function getLoggedUserData() {
+        if ($this->isUserLogged()) {
+            $id = $this->session->readSession(self::USER_SESSION_KEY);
+            if($id == null) {
+                echo "ERROR: Data přihlášeného uživatele nebyla nalezena, a proto byl uživatel odhlášen.";
+                $this->userLogout();
+                return null;
+            }
+            $q = "SELECT * FROM ".TABLE_USERS." WHERE id_user=$id";
+            $userData = $this->pdo->query($q)->fetchAll();
+            if(empty($userData)) {
+                echo "ERROR: Data přihlášeného uživatele se nenachází v databázi (mohl být smazán), a proto byl uživatel odhlášen.";
+                $this->userLogout();
+                return null;
+            } else {
+                return $userData[0];
+            }
+        }
+        return null;
+    }
+
+    /**
      * Kontrola, zda-li je uzivatel prihlasen
      * @return bool true pokud je uzivatel prihlaseni, false jinak
      */
