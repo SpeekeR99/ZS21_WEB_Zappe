@@ -41,7 +41,7 @@
                             </li>
                             <form method="POST">
                             <li class='nav-item'>
-                                <button class="btn btn-dark bg-gradient nav-link" type="submit" name="action" value="logout">
+                                <button class="btn btn-danger bg-gradient" type="submit" name="action" value="logout">
                                     <span class="fa fa-sign-out"></span> Odhlásit se
                                 </button>
                             </li>
@@ -92,7 +92,7 @@
 
                     {% if user.logged %}
                     // Pokud ma uzivatel profilovy obrazek, zmeni se k nemu cesta
-                        {% if user.picture is not null %}
+                        {% if user.picture is defined and user.picture is not null %}
                             document.getElementById("profile_pic").src = "{{ user.picture }}";
                         {% endif %}
                     {% endif %}

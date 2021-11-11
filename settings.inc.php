@@ -23,11 +23,11 @@ const TABLE_RATINGS = "ratings";
 /* - - - - - Stanky webu - - - - - */
 
 /** Adresar s ovladaci */
-const DIR_CONTROLLERS = "Controllers";
+const DIR_CONTROLLERS = "controllers";
 /** Adresar s modely */
-const DIR_MODELS = "Models";
+const DIR_MODELS = "models";
 /** Adresar s pohledy */
-const DIR_VIEWS = "Views";
+const DIR_VIEWS = "views";
 
 /** Klic k defaultni webove strance */
 const DEFAULT_WEB_PAGE_KEY = "uvod";

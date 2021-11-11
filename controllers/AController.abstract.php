@@ -56,7 +56,7 @@ abstract class AController {
                              $this->loginManager->userRegister($_POST["login"], $_POST["email"], $_POST["pass"]);
                          }
                      } else {
-                         echo "ERROR: Hesla se neshodují!";
+                         echo "ERROR: Hesla se neshodují!<br>";
                      }
                 }
             }
@@ -73,26 +73,43 @@ abstract class AController {
                             if (isset($_POST["loginnew"]) || isset($_POST["emailnew"]) || (isset($_POST["passnew"]) && isset($_POST["passagainnew"]))) {
                                 if ($_POST["passnew"] == $_POST["passagainnew"]) {
                                     if ($_POST["loginnew"] != "") {
-                                        echo "Změna loginu<br>";
+                                        echo "Změna loginu byla úspěšná.<br>";
 //                                        $this->db->changeUserLogin($user["id_user"], $_POST["loginnew"]);
                                     }
                                     if ($_POST["emailnew"] != "") {
-                                        echo "Změna emailu<br>";
+                                        echo "Změna emailu byla úspěšná.<br>";
 //                                        $this->db->changeUserEmail($user["id_user"], $_POST["emailnew"]);
                                     }
                                     if ($_POST["passnew"] != "") {
-                                        echo "Změna hesla<br>";
+                                        echo "Změna hesla byla úspěšná.<br>";
 //                                        $this->db->changeUserPass($user["id_user"], $_POST["passnew"]);
                                     }
+                                    $targetDir = "uploads/avatar/";
+                                    $targetFile = $targetDir . basename($_FILES['profilepic']['name']);
+                                    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+                                    $targetFile = $targetDir . time().uniqid(rand()) . "." . $imageFileType;
+                                    $check = getimagesize($_FILES["profilepic"]["tmp_name"]);
+                                    if ($check !== false) {
+                                        if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif" ) {
+                                            if (move_uploaded_file($_FILES["profilepic"]["tmp_name"], $targetFile)) {
+                                                echo "Soubor ".htmlspecialchars(basename($_FILES["profilepic"]["name"]))." byl úspěšně nahrán.<br>";
+//                                                $this->db->changeUserProfilePic($user["id_user"], $targetFile);
+                                            } else {
+                                                echo "ERROR: Nastal problém s nahráváním souboru!<br>";
+                                            }
+                                        } else {
+                                            echo "ERROR: Soubor není typu JPG, JPEG, PNG nebo GIF!<br>";
+                                        }
+                                    }
                                 } else {
-                                    echo "ERROR: Nová hesla se neshodují!";
+                                    echo "ERROR: Nová hesla se neshodují!<br>";
                                 }
                             }
                         } else {
-                            echo "ERROR: Zadané heslo je špatné!";
+                            echo "ERROR: Zadané heslo je špatné!<br>";
                         }
                     } else {
-                        echo "ERROR: Stará hesla se neshodují!";
+                        echo "ERROR: Stará hesla se neshodují!<br>";
                     }
                 }
             }

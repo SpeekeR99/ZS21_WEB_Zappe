@@ -14,10 +14,16 @@
                         {% elseif user.rights == 5 %} Admin
                         {% elseif user.rights == 10 %} SuperAdmin
                         {% endif %}</p><br>
-                    <p><a style='color: mediumblue' href="index.php?page=zmena">Změnit údaje</a></p>
+                    <p><a class="btn btn-dark bg-gradient" href="index.php?page=zmena">Změnit údaje</a></p>
                 </div>
                 <div class="col-6">
-                    <img id="profile_pic" src="data/default_avatar.png" alt="Not found" style="width:200px;" class="rounded-pill"> <br>
+                    <img id="profile_pic" src=
+                    {% if user.picture is defined and user.picture is not null %}
+                        {{ user.picture }}
+                    {% else %}
+                        "data/default_avatar.png"
+                    {% endif %}
+                     alt="Not found" style="width:200px;" class="rounded-pill"> <br>
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@
             <p>Nejste přihlášen!</p>
         </div>
     {% else %}
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <div class="container">
                 <div class="row">
                     <div class="col-6">
@@ -42,6 +42,10 @@
                             <label>Zadejte nové heslo znovu:</label>
                             <input id="pass2" class="form-control bg-dark text-white" type="password" name="passagainnew" placeholder="-- heslo znovu --">
                             <input type="checkbox" onclick="showPass('pass2')"> Ukaž heslo
+                        </div><br>
+                        <div class="form-group">
+                            <label>Vyberte profilový obrázek:</label><br>
+                            <input type="file" name="profilepic" accept="image/*">
                         </div><br>
                     </div>
                 </div>
