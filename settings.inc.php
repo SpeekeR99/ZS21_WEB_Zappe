@@ -93,6 +93,12 @@ const WEB_PAGES = array(
         "file_name" => "RecenzentController.class.php",
         "class_name" => "RecenzentController",
         "template" => "RecenzentTemplate.twig"
+    ),
+    "zmena" => array(
+        "title" => "Změna údajů",
+        "file_name" => "ZmenaController.class.php",
+        "class_name" => "ZmenaController",
+        "template" => "ZmenaTemplate.twig"
     )
 );
 

@@ -3,12 +3,12 @@
 require_once(DIR_CONTROLLERS."/AController.abstract.php");
 
 /**
- * Ovladac pro vypis profilove stranky
+ * Ovladac pro vypis stranky na zmenu udaju na profilu
  */
-class ProfilController extends AController {
+class ZmenaController extends AController {
 
     /**
-     * Vraci pole dat pro sablonu profilove stranku
+     * Vraci pole dat pro sablonu na zmenu udaju na profilu
      * @param string $pageTitle Nazev stranky
      * @return array Data pro twig sablonu
      */

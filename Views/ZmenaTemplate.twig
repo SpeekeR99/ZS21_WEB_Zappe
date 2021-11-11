@@ -1,0 +1,66 @@
+{% extends "BasicTemplate.twig" %}
+
+{% block obsah %}
+
+    {% if not user.logged %}
+        <div class="container text-center">
+            <p>Nejste přihlášen!</p>
+        </div>
+    {% else %}
+        <form method="POST">
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <p> Staré údaje </p>
+                        <div class="form-group">
+                            <label>Zadejte staré heslo:</label>
+                            <input id="passold1" class="form-control bg-dark text-white" type="password" name="passold" placeholder="-- heslo --" required>
+                            <input type="checkbox" onclick="showPass('passold1')"> Ukaž heslo
+                        </div><br>
+                        <div class="form-group">
+                            <label>Zadejte staré heslo znovu:</label>
+                            <input id="passold2" class="form-control bg-dark text-white" type="password" name="passagainold" placeholder="-- heslo znovu --" required>
+                            <input type="checkbox" onclick="showPass('passold2')"> Ukaž heslo
+                        </div><br>
+                    </div>
+                    <div class="col-6">
+                        <p> Nové údaje </p>
+                        <div class="form-group">
+                            <label>Zadejte nový login:</label>
+                            <input class="form-control bg-dark text-white" type="text" name="loginnew" placeholder="-- zadejte login --">
+                        </div><br>
+                        <div class="form-group">
+                            <label>Zadejte nový e-mail::</label>
+                            <input class="form-control bg-dark text-white" type="email" name="emailnew" placeholder="-- zadejte login --">
+                        </div><br>
+                        <div class="form-group">
+                            <label>Zadejte nové heslo:</label>
+                            <input id="pass1" class="form-control bg-dark text-white" type="password" name="passnew" placeholder="-- heslo --">
+                            <input type="checkbox" onclick="showPass('pass1')"> Ukaž heslo
+                        </div><br>
+                        <div class="form-group">
+                            <label>Zadejte nové heslo znovu:</label>
+                            <input id="pass2" class="form-control bg-dark text-white" type="password" name="passagainnew" placeholder="-- heslo znovu --">
+                            <input type="checkbox" onclick="showPass('pass2')"> Ukaž heslo
+                        </div><br>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="btn-dark btn-lg bg-gradient" type="submit" name="action" value="change">Uložit změny</button>
+            </div>
+        </form>
+    {% endif %}
+
+    <script>
+        function showPass(id) {
+            var pass = document.getElementById(id);
+            if (pass.type === "password") {
+                pass.type = "text";
+            } else {
+                pass.type = "password";
+            }
+        }
+    </script>
+
+{% endblock obsah %}

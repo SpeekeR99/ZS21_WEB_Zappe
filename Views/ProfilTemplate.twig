@@ -2,6 +2,29 @@
 
 {% block obsah %}
 
-    <h3>{{ obsah | raw }}</h3>
+    {% if user.logged %}
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <p><b>Login</b>: {{ user.login }} <br>
+                    <b>Email</b>: {{ user.email }} <br>
+                    <b>Role</b>:
+                        {% if user.rights == 1 %} Autor
+                        {% elseif user.rights == 3 %} Recenzent
+                        {% elseif user.rights == 5 %} Admin
+                        {% elseif user.rights == 10 %} SuperAdmin
+                        {% endif %}</p><br>
+                    <p><a style='color: mediumblue' href="index.php?page=zmena">Změnit údaje</a></p>
+                </div>
+                <div class="col-6">
+                    <img id="profile_pic" src="data/default_avatar.png" alt="Not found" style="width:200px;" class="rounded-pill"> <br>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container text-center">
+            <p>Nejste přihlášen!</p>
+        </div>
+    {% endif %}
 
 {% endblock obsah %}

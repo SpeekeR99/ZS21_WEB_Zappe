@@ -8,17 +8,21 @@
         </div>
     {% else %}
         <form method="POST">
-            <div class="form-group">
-                <label>Zadejte login nebo email:</label>
-                <input class="form-control bg-dark text-white" type="text" name="login" placeholder="-- zadejte login nebo e-mail --" required>
-            </div><br>
-            <div class="form-group">
-                <label>Zadejte heslo:</label>
-                <input id="pass" class="form-control bg-dark text-white" type="password" name="pass" placeholder="-- heslo --" required>
-                <input type="checkbox" onclick="showPass('pass')"> Ukaž heslo
-            </div><br>
-            <div class="text-center">
-                <button class="btn-dark btn-lg bg-gradient" type="submit" name="action" value="login">Přihlásit se</button>
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Zadejte login nebo email:</label>
+                        <input class="form-control bg-dark text-white" type="text" name="login" placeholder="-- zadejte login nebo e-mail --" required>
+                    </div><br>
+                    <div class="form-group">
+                        <label>Zadejte heslo:</label>
+                        <input id="pass" class="form-control bg-dark text-white" type="password" name="pass" placeholder="-- heslo --" required>
+                        <input type="checkbox" onclick="showPass('pass')"> Ukaž heslo
+                    </div><br>
+                    <div class="text-center">
+                        <button class="btn-dark btn-lg bg-gradient" type="submit" name="action" value="login">Přihlásit se</button>
+                    </div>
+                </div>
             </div>
         </form>
     {% endif %}

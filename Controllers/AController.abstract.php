@@ -65,6 +65,37 @@ abstract class AController {
                     $this->loginManager->userLogin($_POST["login"], $_POST["pass"]);
                 }
             }
+            else if ($_POST["action"] == "change") {
+                if (isset($_POST["passold"]) && isset($_POST["passagainold"])) {
+                    if ($_POST["passold"] == $_POST["passagainold"]) {
+                        $user = $this->loginManager->getLoggedUserData();
+                        if (password_verify($_POST["passold"], $user["pass"])) {
+                            if (isset($_POST["loginnew"]) || isset($_POST["emailnew"]) || (isset($_POST["passnew"]) && isset($_POST["passagainnew"]))) {
+                                if ($_POST["passnew"] == $_POST["passagainnew"]) {
+                                    if ($_POST["loginnew"] != "") {
+                                        echo "Změna loginu<br>";
+//                                        $this->db->changeUserLogin($user["id_user"], $_POST["loginnew"]);
+                                    }
+                                    if ($_POST["emailnew"] != "") {
+                                        echo "Změna emailu<br>";
+//                                        $this->db->changeUserEmail($user["id_user"], $_POST["emailnew"]);
+                                    }
+                                    if ($_POST["passnew"] != "") {
+                                        echo "Změna hesla<br>";
+//                                        $this->db->changeUserPass($user["id_user"], $_POST["passnew"]);
+                                    }
+                                } else {
+                                    echo "ERROR: Nová hesla se neshodují!";
+                                }
+                            }
+                        } else {
+                            echo "ERROR: Zadané heslo je špatné!";
+                        }
+                    } else {
+                        echo "ERROR: Stará hesla se neshodují!";
+                    }
+                }
+            }
             else if($_POST["action"] == "logout") {
                 $this->loginManager->userLogout();
             }
