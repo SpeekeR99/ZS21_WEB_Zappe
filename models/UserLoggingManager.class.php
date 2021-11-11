@@ -65,14 +65,14 @@ class UserLoggingManager {
             $user = $out->fetchAll();
             if (count($user) > 0) {
                 if (password_verify($pass, $user[0]["pass"])) {
-                    echo "Přihlášení se zdařilo.";
+                    echo "Přihlášení se zdařilo.<br>";
                     $this->session->addSession(self::USER_SESSION_KEY, $user[0]["id_user"]);
                     return $user[0];
                 } else {
-                    echo "ERROR: Špatné heslo!";
+                    echo "ERROR: Špatné heslo!<br>";
                 }
             } else {
-                echo "ERROR: Špatný login!";
+                echo "ERROR: Špatný login!<br>";
             }
         }
         return null;
@@ -86,14 +86,14 @@ class UserLoggingManager {
         if ($this->isUserLogged()) {
             $id = $this->session->readSession(self::USER_SESSION_KEY);
             if($id == null) {
-                echo "ERROR: Data přihlášeného uživatele nebyla nalezena, a proto byl uživatel odhlášen.";
+                echo "ERROR: Data přihlášeného uživatele nebyla nalezena, a proto byl uživatel odhlášen.<br>";
                 $this->userLogout();
                 return null;
             }
             $q = "SELECT * FROM ".TABLE_USERS." WHERE id_user=$id";
             $userData = $this->pdo->query($q)->fetchAll();
             if(empty($userData)) {
-                echo "ERROR: Data přihlášeného uživatele se nenachází v databázi (mohl být smazán), a proto byl uživatel odhlášen.";
+                echo "ERROR: Data přihlášeného uživatele se nenachází v databázi (mohl být smazán), a proto byl uživatel odhlášen.<br>";
                 $this->userLogout();
                 return null;
             } else {

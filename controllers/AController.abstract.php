@@ -73,32 +73,33 @@ abstract class AController {
                             if (isset($_POST["loginnew"]) || isset($_POST["emailnew"]) || (isset($_POST["passnew"]) && isset($_POST["passagainnew"]))) {
                                 if ($_POST["passnew"] == $_POST["passagainnew"]) {
                                     if ($_POST["loginnew"] != "") {
-                                        echo "Změna loginu byla úspěšná.<br>";
-//                                        $this->db->changeUserLogin($user["id_user"], $_POST["loginnew"]);
+                                        $this->db->changeUserLogin($user["id_user"], $_POST["loginnew"]);
                                     }
                                     if ($_POST["emailnew"] != "") {
-                                        echo "Změna emailu byla úspěšná.<br>";
-//                                        $this->db->changeUserEmail($user["id_user"], $_POST["emailnew"]);
+                                        $this->db->changeUserEmail($user["id_user"], $_POST["emailnew"]);
                                     }
                                     if ($_POST["passnew"] != "") {
-                                        echo "Změna hesla byla úspěšná.<br>";
-//                                        $this->db->changeUserPass($user["id_user"], $_POST["passnew"]);
+                                        $this->db->changeUserPass($user["id_user"], $_POST["passnew"]);
                                     }
-                                    $targetDir = "uploads/avatar/";
-                                    $targetFile = $targetDir . basename($_FILES['profilepic']['name']);
-                                    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-                                    $targetFile = $targetDir . time().uniqid(rand()) . "." . $imageFileType;
-                                    $check = getimagesize($_FILES["profilepic"]["tmp_name"]);
-                                    if ($check !== false) {
-                                        if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif" ) {
-                                            if (move_uploaded_file($_FILES["profilepic"]["tmp_name"], $targetFile)) {
-                                                echo "Soubor ".htmlspecialchars(basename($_FILES["profilepic"]["name"]))." byl úspěšně nahrán.<br>";
-//                                                $this->db->changeUserProfilePic($user["id_user"], $targetFile);
+                                    if ($_FILES["profilepic"]["tmp_name"] != "") {
+                                        $targetDir = "uploads/avatar/";
+                                        $targetFile = $targetDir . basename($_FILES['profilepic']['name']);
+                                        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+                                        $uniqueName = $targetDir . time() . uniqid(rand()) . "." . $imageFileType;
+                                        $check = getimagesize($_FILES["profilepic"]["tmp_name"]);
+                                        if ($check !== false) {
+                                            if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif") {
+                                                if (move_uploaded_file($_FILES["profilepic"]["tmp_name"], $uniqueName)) {
+                                                    echo "Soubor " . htmlspecialchars(basename($_FILES["profilepic"]["name"])) . " byl úspěšně nahrán.<br>";
+                                                    $this->db->changeUserProfilePic($user["id_user"], $uniqueName);
+                                                } else {
+                                                    echo "ERROR: Nastal problém s nahráváním souboru!<br>";
+                                                }
                                             } else {
-                                                echo "ERROR: Nastal problém s nahráváním souboru!<br>";
+                                                echo "ERROR: Nahraný soubor není typu JPG, JPEG, PNG nebo GIF!<br>";
                                             }
                                         } else {
-                                            echo "ERROR: Soubor není typu JPG, JPEG, PNG nebo GIF!<br>";
+                                            echo "ERROR: Nahraný soubor není obrázek!<br>";
                                         }
                                     }
                                 } else {

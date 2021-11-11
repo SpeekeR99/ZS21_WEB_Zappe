@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `login` VARCHAR(30) NOT NULL,
   `email` VARCHAR(60) NOT NULL,
   `pass` VARCHAR(60) NOT NULL,
-  `picture` VARCHAR(50) NULL,
+  `picture` VARCHAR(80) NULL,
   `rights` INT NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_user`),
   UNIQUE INDEX `login_UNIQUE` (`login` ASC),
