@@ -87,6 +87,12 @@ const WEB_PAGES = array(
         "file_name" => "MojeClankyController.class.php",
         "class_name" => "MojeClankyController",
         "template" => "MojeClankyTemplate.twig"
+    ),
+    "recenzent" => array(
+        "title" => "Staňte se recenzentem",
+        "file_name" => "RecenzentController.class.php",
+        "class_name" => "RecenzentController",
+        "template" => "RecenzentTemplate.twig"
     )
 );
 
@@ -101,6 +107,11 @@ const NAV_WEB_PAGES = array(
         "pravo" => 0,
         "href" => "index.php?page=clanky",
         "title" => "Články"
+    ),
+    "recenzent" => array(
+        "pravo" => 1,
+        "href" => "index.php?page=recenzent",
+        "title" => "Staňte se recenzentem"
     ),
     "recenze" => array(
         "pravo" => 3,
