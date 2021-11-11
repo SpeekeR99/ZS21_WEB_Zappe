@@ -3,7 +3,7 @@
 require_once(DIR_CONTROLLERS."/AController.abstract.php");
 
 /**
- * Ovladac pro vypis uvodni stranky
+ * Ovladac pro vypis prihlasovaci stranky
  */
 class LoginController extends AController {
 

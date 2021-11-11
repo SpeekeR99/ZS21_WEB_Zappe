@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="composer/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="composer/vendor/components/font-awesome/css/font-awesome.min.css">
 </head>.
-    <body class="bg-light">
-        <nav class="container navbar navbar-expand-md bg-dark navbar-dark sticky-top">
+    <body class="bg-dark">
+        <nav class="container navbar navbar-expand-md bg-dark bg-gradient navbar-dark sticky-top">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span> MENU
@@ -18,7 +18,9 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         {% for page in nav %}
-                            {% if page.pravo <= user.rights %}
+                            {% if user.rights == 10 %} {# Pravo 10 == SuperAdmin - ten muze videt uplne kazdou stranku #}
+                                <li class='nav-item'><a class='nav-link' href="{{ page.href }}">{{ page.title }}</a></li>
+                            {% elseif page.pravo == 0 or page.pravo == user.rights %} {# Zobraz genericke stranky s pravem 0 a stranky s pravem pro daneho uzivatele #}
                                 <li class='nav-item'><a class='nav-link' href="{{ page.href }}">{{ page.title }}</a></li>
                             {% endif %}
                         {% endfor %}
@@ -33,14 +35,13 @@
                                     <img id="profile_pic" src="data/default_avatar.png" alt="Not found" style="width:25px;" class="rounded-pill"> {{ user.login }}
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Moje údaje</a></li>
-                                    <li><a class="dropdown-item" href="#">Moje články</a></li>
-                                    <li><a class="dropdown-item" href="#">Moje hodnocení</a></li>
+                                    <li><a class="dropdown-item" href="index.php?page=profil">Moje údaje</a></li>
+                                    <li><a class="dropdown-item" href="index.php?page=mojeclanky">Moje články</a></li>
                                 </ul>
                             </li>
                             <form method="POST">
                             <li class='nav-item'>
-                                <button class="btn btn-dark nav-link" type="submit" name="action" value="logout">
+                                <button class="btn btn-dark bg-gradient nav-link" type="submit" name="action" value="logout">
                                     <span class="fa fa-sign-out"></span> Odhlásit se
                                 </button>
                             </li>
@@ -50,13 +51,13 @@
                 </div>
             </div>
         </nav>
-        <header class="container bg-secondary fw-bold text-center border-dark border-bottom">
+        <header class="container bg-secondary bg-gradient fw-bold text-center border-dark border-bottom">
             <h1>{{ title | striptags }}</h1>
         </header>
-        <div class="container bg-secondary border-dark border-bottom">
+        <div class="container bg-secondary bg-gradient border-dark border-bottom">
             <br>
             {% if error is defined and error is not null %}
-                <div class="alert-danger">
+                <div class="alert-danger bg-danger bg-gradient text-black">
                     <p class="text-center">
                         {{ error | raw }}
                     </p>
@@ -64,7 +65,7 @@
             {% endif %}
 
             {% if prompt is defined and prompt is not null %}
-                <div class="alert-success">
+                <div class="alert-success bg-success bg-gradient text-black">
                     <p class="text-center">
                         {{ prompt | raw }}
                     </p>
@@ -77,7 +78,7 @@
 
             <br>
         </div>
-        <footer class="container bg-dark text-white text-center">
+        <footer class="container bg-dark bg-gradient text-white text-center">
             &copy; 2021<br>
             <span class="fa fa-cog fa-spin"></span>
 

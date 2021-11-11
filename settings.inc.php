@@ -75,6 +75,18 @@ const WEB_PAGES = array(
         "file_name" => "ProfilController.class.php",
         "class_name" => "ProfilController",
         "template" => "ProfilTemplate.twig"
+    ),
+    "recenze" => array(
+        "title" => "Recenze",
+        "file_name" => "RecenzeController.class.php",
+        "class_name" => "RecenzeController",
+        "template" => "RecenzeTemplate.twig"
+    ),
+    "mojeclanky" => array(
+        "title" => "Moje Články",
+        "file_name" => "MojeClankyController.class.php",
+        "class_name" => "MojeClankyController",
+        "template" => "MojeClankyTemplate.twig"
     )
 );
 
@@ -83,26 +95,22 @@ const NAV_WEB_PAGES = array(
     "uvod" => array(
         "pravo" => 0,
         "href" => "index.php?page=uvod",
-        "title" => "Úvodní stránka",
-        "file_name" => "UvodController.class.php",
-        "class_name" => "UvodController",
-        "template" => "UvodTemplate.twig"
+        "title" => "Úvodní stránka"
     ),
     "clanky" => array(
         "pravo" => 0,
         "href" => "index.php?page=clanky",
-        "title" => "Články",
-        "file_name" => "ClankyController.class.php",
-        "class_name" => "ClankyController",
-        "template" => "ClankyTemplate.twig"
+        "title" => "Články"
+    ),
+    "recenze" => array(
+        "pravo" => 3,
+        "href" => "index.php?page=recenze",
+        "title" => "Recenze"
     ),
     "sprava" => array(
         "pravo" => 5,
         "href" => "index.php?page=sprava",
-        "title" => "Správa uživatelů",
-        "file_name" => "SpravaUzivateluController.class.php",
-        "class_name" => "SpravaUzivatelu",
-        "template" => "SpravaUzivateluTemplate.twig"
+        "title" => "Správa uživatelů"
     )
 );
 
