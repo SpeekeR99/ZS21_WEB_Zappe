@@ -50,8 +50,14 @@ abstract class AController {
         if (isset($_POST["action"])) {
             ob_start();
             if ($_POST["action"] == "register") {
-                if (isset($_POST["email"]) && isset($_POST["login"]) && isset($_POST["pass"])) {
-                    $this->loginManager->userRegister($_POST["login"], $_POST["email"], $_POST["pass"]);
+                if (isset($_POST["pass"]) && isset($_POST["passagain"])) {
+                     if($_POST["pass"] == $_POST["passagain"]) {
+                         if (isset($_POST["email"]) && isset($_POST["login"])) {
+                             $this->loginManager->userRegister($_POST["login"], $_POST["email"], $_POST["pass"]);
+                         }
+                     } else {
+                         echo "ERROR: Hesla se neshodují!";
+                     }
                 }
             }
             else if ($_POST["action"] == "login") {

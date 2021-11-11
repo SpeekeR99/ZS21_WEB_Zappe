@@ -5,19 +5,19 @@
     {% if user.logged %}
         <p>Vítej <b>{{ user.login }}</b>!</p>
         <p>
-            Přejdi na stránku s <a style='color: darkslateblue' href='index.php?page=clanky'>články</a> pro čtení a psaní článků!
+            Přejdi na stránku s <a style='color: mediumblue' href='index.php?page=clanky'>články</a> pro čtení a psaní článků!
         </p>
         {% if user.rights == 1 %}
             <p>
-                Chtěl by jste se stát <b>recenzentem</b>? Není nic jednoduššího než <a style='color: darkslateblue' href='index.php?page=recenzent'>vyplnit tento formulář</a>!
+                Chtěl by jste se stát <b>recenzentem</b>? Není nic jednoduššího než <a style='color: mediumblue' href='index.php?page=recenzent'>vyplnit tento formulář</a>!
             </p>
         {% endif %}
     {% else %}
         <p>
             Vítejte na stránce semestrální práce z předmětu <b>KIV/WEB</b>!<br>
             Tato stránka slouží k prohlížení vložených a schválených článků.<br>
-            Chcete také být autorem článků? Není nic jednoduššího než se <a style='color: darkslateblue' href='index.php?page=registrace'>zaregistrovat</a>!<br>
-            Už jste zaregistrovaný? <a style='color: darkslateblue' href='index.php?page=login'>Přihlašte se</a>!
+            Chcete také být autorem článků? Není nic jednoduššího než se <a style='color: mediumblue' href='index.php?page=registrace'>zaregistrovat</a>!<br>
+            Už jste zaregistrovaný? <a style='color: mediumblue' href='index.php?page=login'>Přihlašte se</a>!
         </p>
     {% endif %}
 

@@ -2,18 +2,36 @@
 
 {% block obsah %}
 
-    <div class="container text-center">
+    {% if user.logged %}
+        <div class="container text-center">
+            <p>Jste přihlášen jako <b>{{ user.login | raw }}</b></p>
+        </div>
+    {% else %}
         <form method="POST">
-            <fieldset>
-                <input type="text" name="login" placeholder="-- zadejte login nebo email --" required>
-                <br>
-                <input type="password" name="pass" placeholder="-- zadejte heslo --" required>
-            </fieldset>
-            <br>
-            <button type="submit" name="action" value="login">
-                Přihlásit uživatele
-            </button>
+            <div class="form-group">
+                <label>Zadejte login nebo email:</label>
+                <input class="form-control bg-dark text-white" type="text" name="login" placeholder="-- zadejte login nebo e-mail --" required>
+            </div><br>
+            <div class="form-group">
+                <label>Zadejte heslo:</label>
+                <input id="pass" class="form-control bg-dark text-white" type="password" name="pass" placeholder="-- heslo --" required>
+                <input type="checkbox" onclick="showPass('pass')"> Ukaž heslo
+            </div><br>
+            <div class="text-center">
+                <button class="btn-dark btn-lg bg-gradient" type="submit" name="action" value="login">Přihlásit se</button>
+            </div>
         </form>
-    </div>
+    {% endif %}
+
+    <script>
+        function showPass(id) {
+            var pass = document.getElementById(id);
+            if (pass.type === "password") {
+                pass.type = "text";
+            } else {
+                pass.type = "password";
+            }
+        }
+    </script>
 
 {% endblock obsah %}
