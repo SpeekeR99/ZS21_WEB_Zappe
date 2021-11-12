@@ -162,6 +162,11 @@ abstract class AController {
                 $this->db->articleSendToReview($_POST["articlereview"]);
             }
         }
+        if (isset($_POST["ratinguserid"]) && isset($_POST["ratingarticleid"]) && isset($_POST["ratingnum"])) {
+            if ($_POST["ratinguserid"] != "" && $_POST["ratingarticleid"] != "") {
+                $this->db->addRating($_POST["ratinguserid"], $_POST["ratingarticleid"], $_POST["ratingnum"], $_POST["ratingtext"]);
+            }
+        }
         $prompt = ob_get_clean();
         if (explode(' ',trim($prompt))[0] == "ERROR:") {
             $this->data["error"] = $prompt;

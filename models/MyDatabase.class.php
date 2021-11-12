@@ -191,15 +191,19 @@ class MyDatabase {
         $q = "SELECT * FROM ".TABLE_ARTICLES." WHERE id_article=$articleId";
         $out = $this->pdo->prepare($q);
         $out->execute();
-        $status = $out->fetchAll()[0]["status"];
+        $article = $out->fetchAll()[0];
+        $status = $article["status"];
+        $review = $article["review"];
         if ($status == "zamitnuto") {
             $status = "prijato";
+            $review = "false";
         } else {
             $status = "zamitnuto";
         }
-        $q = "UPDATE ".TABLE_ARTICLES." SET status=:status WHERE id_article=$articleId;";
+        $q = "UPDATE ".TABLE_ARTICLES." SET status=:status, review=:review WHERE id_article=$articleId;";
         $out = $this->pdo->prepare($q);
         $out->bindValue(":status", $status);
+        $out->bindValue(":review", $review);
         $out->execute();
     }
 
@@ -215,6 +219,47 @@ class MyDatabase {
             echo "Článek byl odeslán k posouzení.<br>";
         } else {
             echo "ERROR: Nepodařilo se odeslat článek k posouzení!<br>";
+        }
+    }
+
+    /* Recenze */
+
+    /**
+     * Vrati vsechny clanky, ktere maji "True" v sloupci review
+     * @return array|false|null pole vsech takovych clanku nebo null
+     */
+    public function getAllArticlesForReview() {
+        $q = "SELECT * FROM ".TABLE_ARTICLES." WHERE review='true'";
+        $out = $this->pdo->prepare($q);
+        if ($out->execute()) {
+            return $out->fetchAll();
+        } else {
+            echo "ERROR: Nepodařilo se načíst články z databáze!<br>";
+            return null;
+        }
+    }
+
+    /**
+     * Přidá hodnocení od uživatele na daný článek
+     * @param int $userid ID uživatele který hodnotil
+     * @param int $articleid ID článku který byl hodnocen
+     * @param int $ratingnum číslo od 1 do 10 (ohodnocení)
+     * @param string $text textová poznámka
+     */
+    public function addRating(int $userid, int $articleid, int $ratingnum, string $text) {
+        // XSS
+        $text = strip_tags($text);
+
+        $q = "INSERT INTO ".TABLE_RATINGS." (id_user, id_article, rating, comment) VALUES (:iduser, :idarticle, :rating, :text);";
+        $out = $this->pdo->prepare($q);
+        $out->bindValue(":iduser", $userid);
+        $out->bindValue(":idarticle", $articleid);
+        $out->bindValue(":rating", $ratingnum);
+        $out->bindValue(":text", $text);
+        if ($out->execute()) {
+            echo "Přidání hodnocení bylo úspěšné.<br>";
+        } else {
+            echo "ERROR: Přidání hodnocení se nepodařilo!<br>";
         }
     }
 

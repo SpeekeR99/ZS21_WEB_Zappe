@@ -16,8 +16,8 @@ class RecenzeController extends AController {
         $this->processForm();
         $this->prepBasicData($pageTitle);
 
-        // Obsah stranky
-        $this->data["obsah"] = "RECENZUJ ZDE";
+        $this->data["allusers"] = $this->db->getAllUsers();
+        $this->data["articles"] = $this->db->getAllArticlesForReview();
 
         return $this->data;
     }

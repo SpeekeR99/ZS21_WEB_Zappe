@@ -13,9 +13,9 @@
         {% for article in allarticles %}
         {% if article.status == "prijato" or user.rights >= 5 %}
         {% if article.status == "zamitnuto" and user.rights >= 5 %}
-        <div class="border-top border-bottom opacity-50">
+        <div class="container border-top border-bottom opacity-50">
         {% else %}
-        <div class="border-top border-bottom">
+        <div class="container border-top border-bottom">
         {% endif %}
             <div class="row">
                 {% if user.rights < 5 %}
