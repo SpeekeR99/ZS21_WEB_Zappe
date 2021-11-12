@@ -117,10 +117,49 @@ abstract class AController {
             else if($_POST["action"] == "logout") {
                 $this->loginManager->userLogout();
             }
+            else if($_POST["action"] == "addarticle") {
+                if (isset($_POST["articletext"]) && isset($_FILES["articlepdf"]) && isset($_POST["articletitle"])) {
+                    if ($_POST["articletext"] != "" && $_FILES["articlepdf"]["tmp_name"] != "" && $_POST["articletitle"] != "") {
+                        $user = $this->loginManager->getLoggedUserData();
+                        $title = $_POST["articletitle"];
+                        $abstract = $_POST["articletext"];
+                        $targetDir = "uploads/article/";
+                        $targetFile = $targetDir . basename($_FILES['articlepdf']['name']);
+                        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+                        $uniqueName = $targetDir . time() . uniqid(rand()) . "." . $imageFileType;
+                        if ($imageFileType == "pdf") {
+                            if (move_uploaded_file($_FILES["articlepdf"]["tmp_name"], $uniqueName)) {
+                                $this->db->addArticle($user["id_user"], $title, $abstract, $uniqueName);
+                            } else {
+                                echo "ERROR: Nastal problém s nahráváním souboru!<br>";
+                            }
+                        } else {
+                            echo "ERROR: Nahraný soubor není typu PDF!<br>";
+                        }
+                    } else {
+                        echo "ERROR: Musíte vyplnit název článku a abstract a i nahrát pdf soubor!<br>";
+                    }
+                }
+            }
         }
         if (isset($_POST["deleteuser"])) {
             if ($_POST["deleteuser"] != "") {
                 $this->db->deleteUser($_POST["deleteuser"]);
+            }
+        }
+        if (isset($_POST["deletearticle"])) {
+            if ($_POST["deletearticle"] != "") {
+                $this->db->deleteArticle($_POST["deletearticle"]);
+            }
+        }
+        if (isset($_POST["articleswapstatus"])) {
+            if ($_POST["articleswapstatus"] != "") {
+                $this->db->swapArticleStatus($_POST["articleswapstatus"]);
+            }
+        }
+        if (isset($_POST["articlereview"])) {
+            if ($_POST["articlereview"] != "") {
+                $this->db->articleSendToReview($_POST["articlereview"]);
             }
         }
         $prompt = ob_get_clean();

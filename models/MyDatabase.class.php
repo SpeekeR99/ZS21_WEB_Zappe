@@ -123,6 +123,101 @@ class MyDatabase {
         }
     }
 
+    /* Články */
+
+    /**
+     * Vraci pole vsech clanku, co jsou v DB
+     * @return array|false|null Pole vsechn clanku nebo null, nepovede-li se
+     */
+    public function getAllArticles() {
+        $q = "SELECT * FROM ".TABLE_ARTICLES;
+        $out = $this->pdo->prepare($q);
+        if ($out->execute()) {
+            return $out->fetchAll();
+        } else {
+            echo "ERROR: Nepodařilo se načíst články z databáze!<br>";
+            return null;
+        }
+    }
+
+    /**
+     * Funkce prida clanek do databaze
+     * @param int $user Id uzivatele, ktery je autorem
+     * @param string $title Nazev clanku
+     * @param string $abstract Abstrakt clanku
+     * @param string $filepath Cesta k PDF souboru celeho clanku
+     */
+    public function addArticle(int $user, string $title, string $abstract, string $filepath) {
+        // XSS ošetření
+        $title = htmlspecialchars($title);
+        $abstract = strip_tags($abstract);
+        $status = "zamitnuto";
+        $review = "false";
+
+        $q = "INSERT INTO ".TABLE_ARTICLES." (id_user, title, abstract, filepath, status, review) VALUES (:iduser, :title, :abstract, :filepath, :status, :review);";
+        $out = $this->pdo->prepare($q);
+        $out->bindValue(":iduser", $user);
+        $out->bindValue(":title", $title);
+        $out->bindValue(":abstract", $abstract);
+        $out->bindValue(":filepath", $filepath);
+        $out->bindValue(":status", $status);
+        $out->bindValue(":review", $review);
+        if ($out->execute()) {
+            echo "Přidání článku bylo úspěšné.<br>";
+        } else {
+            echo "ERROR: Přidání článku se nepodařilo!<br>";
+        }
+    }
+
+    /**
+     * Smaže clanek z databáze
+     * @param int $userId Id clanku, který má být smazán
+     */
+    public function deleteArticle(int $articleId) {
+        $q = "DELETE FROM ".TABLE_ARTICLES." WHERE id_article=$articleId";
+        $out = $this->pdo->prepare($q);
+        if ($out->execute()) {
+            echo "Odebrání článku bylo úspěšné.<br>";
+        } else {
+            echo "ERROR: Odebrání článku se nepodařilo!<br>";
+        }
+    }
+
+    /**
+     * Prohazuje status clanku, jestli je ok nebo neni
+     * @param int $articleId ID clanku, kde se ma prohodit status
+     */
+    public function swapArticleStatus(int $articleId) {
+        $q = "SELECT * FROM ".TABLE_ARTICLES." WHERE id_article=$articleId";
+        $out = $this->pdo->prepare($q);
+        $out->execute();
+        $status = $out->fetchAll()[0]["status"];
+        if ($status == "zamitnuto") {
+            $status = "prijato";
+        } else {
+            $status = "zamitnuto";
+        }
+        $q = "UPDATE ".TABLE_ARTICLES." SET status=:status WHERE id_article=$articleId;";
+        $out = $this->pdo->prepare($q);
+        $out->bindValue(":status", $status);
+        $out->execute();
+    }
+
+    /**
+     * Posle clanek vsem recenzentum k posouzeni
+     * @param int $articleId ID clanku, ktery ma byt posouzen
+     */
+    public function articleSendToReview(int $articleId) {
+        $q = "UPDATE ".TABLE_ARTICLES." SET review=:review WHERE id_article=$articleId;";
+        $out = $this->pdo->prepare($q);
+        $out->bindValue(":review", "true");
+        if ($out->execute()) {
+            echo "Článek byl odeslán k posouzení.<br>";
+        } else {
+            echo "ERROR: Nepodařilo se odeslat článek k posouzení!<br>";
+        }
+    }
+
 }
 
 ?>

@@ -2,6 +2,124 @@
 
 {% block obsah %}
 
-    <h3>{{ obsah | raw }}</h3>
+    {% if not user.logged %}
+        <div class="container text-center">
+            <p>Nejste přihlášen!</p>
+        </div>
+    {% else %}
+        <div class="container">
+            <p><a class="btn btn-success btn-lg bg-gradient" href="index.php?page=novyclanek">Přidat nový článek</a></p>
+        </div>
+        {% for article in allarticles %}
+        {% if article.status == "prijato" or user.rights >= 5 %}
+        {% if article.status == "zamitnuto" and user.rights >= 5 %}
+        <div class="border-top border-bottom opacity-50">
+        {% else %}
+        <div class="border-top border-bottom">
+        {% endif %}
+            <div class="row">
+                {% if user.rights < 5 %}
+                <div class="col-12">
+                    <h3>{{ article.title }}</h3>
+                </div>
+                {% else %}
+                <div class="col-md-6 col-lg-8">
+                    <h3>{{ article.title }}</h3>
+                </div>
+                <div class="col-md-3 col-lg-2">
+                    {% if article.status == "zamitnuto" %}
+                        <p class="text-end">
+                            <button class="btn-success btn-sm bg-gradient" onclick="articleStatusSwap({{ article.id_article }})" type="submit">
+                                <span class="fa fa-check"></span> Schválit</button></p>
+                    {% else %}
+                        <p class="text-end">
+                            <button class="btn-danger btn-sm bg-gradient" onclick="articleStatusSwap({{ article.id_article }})" type="submit">
+                                <span class="fa fa-ban"></span> Zamítnout</button></p>
+                    {% endif %}
+                </div>
+                <div class="col-md-3 col-lg-2">
+                    <p class="text-end">
+                        <button class="btn-info btn-sm bg-gradient" onclick="articleSendToReview({{ article.id_article }})" type="submit">
+                            <span class="fa fa-question-circle"></span> Poslat k recenzi</button></p>
+                </div>
+                    {% endif %}
+            </div>
+            <div class="row">
+                {% if user.rights < 5 %}
+                    <div class="col-12">
+                        <h4>
+                            Autor: {% for oneuser in allusers %}
+                                    {% if oneuser.id_user == article.id_user %}
+                                    {{ oneuser.login }}
+                                    {% endif %}
+                                    {% endfor %}
+                        </h4>
+                    </div>
+                {% else %}
+                    <div class="col-md-6 col-lg-10">
+                        <h4>
+                            Autor: {% for oneuser in allusers %}
+                                    {% if oneuser.id_user == article.id_user %}
+                                    {{ oneuser.login }}
+                                    {% endif %}
+                                    {% endfor %}
+                        </h4>
+                    </div>
+                    <div class="col-md-6 col-lg-2">
+                        <p class="text-end">
+                            <button class="btn-danger btn-sm bg-gradient" onclick="articleDelete({{ article.id_article }})" type="submit" name="action" value="deletearticle">
+                                <span class="fa fa-ban"></span> Smazat</button></p>
+                    </div>
+                {% endif %}
+            </div>
+            <p><h5>Abstract:</h5>{{ article.abstract | striptags }}</p>
+            <p class="text-center"><a class="btn btn-dark bg-gradient" target="_blank" href="{{ article.filepath }}">Celý článek</a></p>
+        </div>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <script>
+
+        function articleDelete(id) {
+            var result = confirm("Opravdu chcete článek smazat?");
+            if (result) {
+                const form = document.createElement("form");
+                form.method = "POST";
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "deletearticle";
+                input.value = id;
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+        function articleStatusSwap(id) {
+            const form = document.createElement("form");
+            form.method = "POST";
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "articleswapstatus";
+            input.value = id;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        function articleSendToReview(id) {
+            const form = document.createElement("form");
+            form.method = "POST";
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "articlereview";
+            input.value = id;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+    </script>
 
 {% endblock obsah %}

@@ -37,12 +37,11 @@ DROP TABLE IF EXISTS `articles` ;
 CREATE TABLE IF NOT EXISTS `articles` (
   `id_article` INT NOT NULL AUTO_INCREMENT,
   `id_user` INT NOT NULL,
-  `title` VARCHAR(50) NOT NULL,
-  `genre` VARCHAR(50) NOT NULL,
-  `game` VARCHAR(100) NOT NULL,
+  `title` VARCHAR(100) NOT NULL,
   `abstract` VARCHAR(2000) NOT NULL,
-  `filepath` VARCHAR(50) NOT NULL,
+  `filepath` VARCHAR(80) NOT NULL,
   `status` VARCHAR(20) NOT NULL,
+  `review` VARCHAR(5) NOT NULL,
   PRIMARY KEY (`id_article`),
   INDEX `fk_articles_users_idx` (`id_user` ASC),
   CONSTRAINT `fk_articles_users`

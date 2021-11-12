@@ -16,8 +16,8 @@ class ClankyController extends AController {
         $this->processForm();
         $this->prepBasicData($pageTitle);
 
-        // Obsah stranky
-        $this->data["obsah"] = "ČLÁNKY HERE";
+        $this->data["allusers"] = $this->db->getAllUsers();
+        $this->data["allarticles"] = $this->db->getAllArticles();
 
         return $this->data;
     }

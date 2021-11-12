@@ -2,6 +2,46 @@
 
 {% block obsah %}
 
-    <h3>{{ obsah | raw }}</h3>
+    {% if not user.logged %}
+        <div class="container text-center">
+            <p>Nejste přihlášen!</p>
+        </div>
+    {% else %}
+        <form id="addarticleform" method="POST" enctype="multipart/form-data">
+            <div class="container">
+                <div class="form-group">
+                    <label>Napište název článku:</label><br>
+                    <input id="title" class="form-control bg-dark text-white" type="text" name="articletitle" placeholder="-- Název článku --" required>
+                </div><br>
+                <div class="form-group">
+                    <label>Napište stručný abstrakt:</label><br>
+                    <textarea class="ckeditor" id="editor" name="editor"></textarea>
+                </div><br>
+                <div class="form-group">
+                    <label>Nahrajte celý článek jako pdf soubor:</label><br>
+                    <input class="form-control bg-dark text-white" type="file" name="articlepdf" accept="application/pdf">
+                </div><br>
+                <button class="btn btn-success bg-gradient" onclick="submitData()" type="submit" name="action" value="addarticle"><span class="fa fa-arrow-circle-right"></span> Odeslat</button><br>
+            </div>
+        </form>
+    {% endif %}
+
+    <script type="text/javascript" src="composer/vendor/ckeditor/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        function submitData() {
+            var editorData = CKEDITOR.instances.editor.getData();
+            const form = document.getElementById("addarticleform");
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "articletext";
+            input.value = editorData;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+    </script>
 
 {% endblock obsah %}

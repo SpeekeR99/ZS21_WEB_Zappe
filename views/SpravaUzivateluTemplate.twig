@@ -39,7 +39,7 @@
                         <td class="text-center">
                             {% if oneuser.rights == 10 and user.rights == 10 %} {# Osetreni aby se nezabanoval sam sebe superadmin #}
                             {% elseif oneuser.rights < 5 or user.rights == 10 %}
-                                <button class="btn-danger btn-sm bg-gradient" onclick="userDelete({{ oneuser.id_user }})" type="submit"><span class="fa fa-ban"></span> Smazat</button>
+                                <button class="btn-danger btn-sm bg-gradient" onclick="userDelete({{ oneuser.id_user }})" type="submit" name="action" value="deleteuser"><span class="fa fa-ban"></span> Smazat</button>
                             {% endif %}
                         </td>
                     </tr>

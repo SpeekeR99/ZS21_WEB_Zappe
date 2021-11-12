@@ -46,7 +46,7 @@ const WEB_PAGES = array(
         "class_name" => "ClankyController",
         "template" => "ClankyTemplate.twig"
     ),
-    "novy_clanek" => array(
+    "novyclanek" => array(
         "title" => "Přidat nový článek",
         "file_name" => "PridatClanekController.class.php",
         "class_name" => "PridatClanekController",

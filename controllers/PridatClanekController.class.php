@@ -16,9 +16,6 @@ class PridatClanekController extends AController {
         $this->processForm();
         $this->prepBasicData($pageTitle);
 
-        // Obsah stranky
-        $this->data["obsah"] = "PŘIDAT ČLÁNEK HERE";
-
         return $this->data;
     }
 }

@@ -41,9 +41,9 @@ class UserLoggingManager {
         $out->bindValue(":email", $email);
         $out->bindValue(":passw", $hash);
         if ($out->execute()) {
-            echo "Registrován nový uživatel.";
+            echo "Registrován nový uživatel.<br>";
         } else {
-            echo "ERROR: Registrace uživatele se nezdařila.";
+            echo "ERROR: Registrace uživatele se nezdařila.<br>";
         }
     }
 
