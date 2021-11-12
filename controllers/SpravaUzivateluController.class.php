@@ -16,8 +16,7 @@ class SpravaUzivateluController extends AController {
         $this->processForm();
         $this->prepBasicData($pageTitle);
 
-        // Obsah stranky
-        $this->data["obsah"] = "SPRÁVA UŽIVATELŮ";
+        $this->data["allusers"] = $this->db->getAllUsers();
 
         return $this->data;
     }

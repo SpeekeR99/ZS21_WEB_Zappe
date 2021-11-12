@@ -117,12 +117,17 @@ abstract class AController {
             else if($_POST["action"] == "logout") {
                 $this->loginManager->userLogout();
             }
-            $prompt = ob_get_clean();
-            if (explode(' ',trim($prompt))[0] == "ERROR:") {
-                $this->data["error"] = $prompt;
-            } else {
-                $this->data["prompt"] = $prompt;
+        }
+        if (isset($_POST["deleteuser"])) {
+            if ($_POST["deleteuser"] != "") {
+                $this->db->deleteUser($_POST["deleteuser"]);
             }
+        }
+        $prompt = ob_get_clean();
+        if (explode(' ',trim($prompt))[0] == "ERROR:") {
+            $this->data["error"] = $prompt;
+        } else {
+            $this->data["prompt"] = $prompt;
         }
     }
 

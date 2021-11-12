@@ -92,6 +92,37 @@ class MyDatabase {
         }
     }
 
+    /* Správa uživatelů */
+
+    /**
+     * Vraci pole všech uživatelů, co jsou v DB
+     * @return array|false|null Pole všech uživatelů nebo null, nepovede-li se
+     */
+    public function getAllUsers() {
+        $q = "SELECT * FROM ".TABLE_USERS;
+        $out = $this->pdo->prepare($q);
+        if ($out->execute()) {
+            return $out->fetchAll();
+        } else {
+            echo "ERROR: Nepodařilo se načíst uživatele z databáze!<br>";
+            return null;
+        }
+    }
+
+    /**
+     * Smaže uživatele z databáze
+     * @param int $userId Id uživatele, který má být smazán
+     */
+    public function deleteUser(int $userId) {
+        $q = "DELETE FROM ".TABLE_USERS." WHERE id_user=$userId";
+        $out = $this->pdo->prepare($q);
+        if ($out->execute()) {
+            echo "Odebrání uživatele bylo úspěšné.<br>";
+        } else {
+            echo "ERROR: Odebrání uživatele se nepodařilo!<br>";
+        }
+    }
+
 }
 
 ?>

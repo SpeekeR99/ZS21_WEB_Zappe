@@ -32,7 +32,7 @@
                         {% else %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle navbar-brand" href="#" role="button" data-bs-toggle="dropdown">
-                                    <img id="profile_pic" src="data/default_avatar.png" alt="Not found" style="width:25px;" class="rounded-pill"> {{ user.login }}
+                                    <img id="profile_pic" src="uploads/avatar/default_avatar.png" alt="Not found" style="width:25px;" class="rounded-pill"> {{ user.login }}
                                 </a>
                                 <ul class="dropdown-menu bg-dark">
                                     <li><a class="dropdown-item nav-link bg-dark bg-gradient" href="index.php?page=profil">Moje údaje</a></li>
@@ -91,9 +91,12 @@
                 $(document).ready(function() {
 
                     {% if user.logged %}
-                    // Pokud ma uzivatel profilovy obrazek, zmeni se k nemu cesta
+                        // Pokud ma uzivatel profilovy obrazek, zmeni se k nemu cesta
                         {% if user.picture is defined and user.picture is not null %}
-                            document.getElementById("profile_pic").src = "{{ user.picture }}";
+                            $.get("http://localhost/WEB_21ZS_Zappe/"+"{{ user.picture }}")
+                                .done(function() {
+                                    document.getElementById("profile_pic").src = "{{ user.picture }}";
+                                }).fail(function() {})
                         {% endif %}
                     {% endif %}
 

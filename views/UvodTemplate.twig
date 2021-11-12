@@ -9,7 +9,11 @@
         </p>
         {% if user.rights == 1 %}
             <p>
-                Chtěl by jste se stát <b>recenzentem</b>? Není nic jednoduššího než <a style='color: mediumblue' href='index.php?page=recenzent'>vyplnit tento formulář</a>!
+                Chtěl by jste se stát <b>recenzentem</b>? Není nic jednoduššího než kontaktovat někoho z <b>admin</b> týmu!
+            </p>
+        {% elseif user.rights == 3 %}
+            <p>
+                Zkontrolujte si prosím stránku <a style='color: mediumblue' href='index.php?page=recenze'>recenze</a>, jestli Vám nebyl přidělen nový článek k posouzení!
             </p>
         {% endif %}
     {% else %}

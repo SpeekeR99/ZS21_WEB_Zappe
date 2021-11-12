@@ -2,6 +2,70 @@
 
 {% block obsah %}
 
-    <h3>{{ obsah | raw }}</h3>
+    {% if not user.logged %}
+        <div class="container text-center">
+            <p>Nejste přihlášen!</p>
+        </div>
+    {% elseif user.rights < 5 %}
+        <div class="container text-center">
+            <p>Nemáte dostatečná práva pro správu uživatelů!</p>
+        </div>
+    {% else %}
+        <div class="container text-center"><h3>Seznam uživatelů</h3></div>
+        <div class="table-responsive">
+            <table class="table table-dark table-striped table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="text-center">ID</th>
+                        <th scope="col" class="text-center">Login</th>
+                        <th scope="col" class="text-center">E-mail</th>
+                        <th scope="col" class="text-center">Role</th>
+                        <th scope="col" class="text-center">Akce</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for oneuser in allusers %}
+                    <tr>
+                        <th scope="row" class="text-center">{{ oneuser.id_user | raw }}</th>
+                        <td>{{ oneuser.login | raw }}</td>
+                        <td>{{ oneuser.email | raw }}</td>
+                        <td>
+                            {% if oneuser.rights == 1 %} Autor
+                            {% elseif oneuser.rights == 3 %} Recenzent
+                            {% elseif oneuser.rights == 5 %} Admin
+                            {% elseif oneuser.rights == 10 %} SuperAdmin
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            {% if oneuser.rights == 10 and user.rights == 10 %} {# Osetreni aby se nezabanoval sam sebe superadmin #}
+                            {% elseif oneuser.rights < 5 or user.rights == 10 %}
+                                <button class="btn-danger btn-sm bg-gradient" onclick="userDelete({{ oneuser.id_user }})" type="submit"><span class="fa fa-ban"></span> Smazat</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    <script>
+
+        function userDelete(id) {
+            var result = confirm("Opravdu chcete uživatele smazat?");
+            if (result) {
+                const form = document.createElement("form");
+                form.method = "POST";
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "deleteuser";
+                input.value = id;
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+    </script>
 
 {% endblock obsah %}
