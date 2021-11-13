@@ -17,7 +17,7 @@
         {% else %}
         <div id="article" class="container border-top border-bottom border-dark bg-gradient">
         {% endif %}
-            <div class="row">
+            <br><div class="row">
                 {% if user.rights < 5 %}
                 <div class="col-12">
                     <h3>{{ article.title }}</h3>
@@ -89,7 +89,7 @@
                     </div>
                 {% endif %}
             </div>
-            <p><h5>Abstract:</h5>{{ article.abstract | striptags }}</p>
+            <p><h5>Abstrakt:</h5>{{ article.abstract | raw }}</p>
             <p class="text-center"><a class="btn btn-dark bg-gradient" target="_blank" href="{{ article.filepath }}">Celý článek</a></p>
         </div>
         {% endif %}

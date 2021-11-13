@@ -2,6 +2,111 @@
 
 {% block obsah %}
 
-    <h3>{{ obsah | raw }}</h3>
+    {% if not user.logged %}
+        <div class="container text-center">
+            <p>Nejste přihlášen!</p>
+        </div>
+    {% else %}
+    {% for article in myarticles %}
+        <div id="article" class="container border-top border-bottom border-dark bg-gradient">
+            <br><div class="row">
+                <div id="originaltitle{{ article.id_article }}" class="col-md-6 col-lg-8">
+                    <h3>{{ article.title }}</h3>
+                </div>
+                <div id="newtitle{{ article.id_article }}" class="col-md-6 col-lg-8" style="display: none">
+                    <input id="changedtitle{{ article.id_article }}" class="form-control bg-dark text-white" type="text" name="changedtitle" value="{{ article.title}}" required>
+                </div>
+                <div class="col-md-3 col-lg-2">
+                    {% if article.status == "zamitnuto" %}
+                        <p class="text-center bg-danger bg-gradient">Status: nepublikováno</p>
+                    {% else %}
+                        <p class="text-center bg-success bg-gradient">Status: publikováno</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-3 col-lg-2" id="editbutton{{ article.id_article }}">
+                    <p class="text-end">
+                        <button class="btn-dark bg-gradient {% if article.status != "zamitnuto" %}opacity-50{% endif %}"
+                                onclick="edit({{ article.id_article }})" type="submit"{% if article.status != "zamitnuto" %} disabled {% endif %}>
+                            <span class="fa fa-pencil-square-o"></span> Změnit...</button></p>
+                </div>
+            </div>
+            <h5>Abstrakt:</h5>
+            <div id="editor{{ article.id_article }}" style="display: none">
+                <textarea class="ckeditor" id="editor" name="editor">{{ article.abstract }}</textarea>
+            </div>
+            <div id="textabstract{{ article.id_article }}">
+                <p>{{ article.abstract | raw }}</p>
+            </div>
+            <div id="articlebutton{{ article.id_article }}">
+                <p class="text-center"><a class="btn btn-dark bg-gradient" target="_blank" href="{{ article.filepath }}">Celý článek</a></p>
+            </div><br>
+            <form id="changearticle{{ article.id_article }}" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
+                <div id="uploadfile{{ article.id_article }}" style="display: none">
+                    <div class="form-group">
+                        <label>Nahrajte celý článek jako pdf soubor:</label><br>
+                        <input class="form-control bg-dark text-white" type="file" name="changedpdf" accept="application/pdf">
+                    </div><br>
+                </div>
+                <div id="finalbuttons{{ article.id_article }}" style="display: none">
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="btn btn-danger bg-gradient" onclick="back({{ article.id_article }})" type="submit"><span class="fa fa-arrow-left"></span> Zpět</button>
+                        </div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-success bg-gradient" onclick="changeData({{ article.id_article }})" type="submit" name="action" value="changearticle"><span class="fa fa-arrow-circle-right"></span> Uložit změny</button>
+                        </div>
+                    </div>
+                </div>
+            </form><br>
+        </div>
+    {% endfor %}
+    {% endif %}
+
+    <script type="text/javascript" src="composer/vendor/ckeditor/ckeditor/ckeditor.js" charset="UTF-8"></script>
+
+    <script>
+
+        function edit(id) {
+            document.getElementById("editor"+id).style.display = "block";
+            document.getElementById("textabstract"+id).style.display = "none";
+            document.getElementById("editbutton"+id).style.display = "none";
+            document.getElementById("articlebutton"+id).style.display = "none";
+            document.getElementById("uploadfile"+id).style.display = "block";
+            document.getElementById("finalbuttons"+id).style.display = "block";
+            document.getElementById("originaltitle"+id).style.display = "none";
+            document.getElementById("newtitle"+id).style.display = "block";
+        }
+
+        function back(id) {
+            document.getElementById("editor"+id).style.display = "none";
+            document.getElementById("textabstract"+id).style.display = "block";
+            document.getElementById("editbutton"+id).style.display = "block";
+            document.getElementById("articlebutton"+id).style.display = "block";
+            document.getElementById("uploadfile"+id).style.display = "none";
+            document.getElementById("finalbuttons"+id).style.display = "none";
+            document.getElementById("originaltitle"+id).style.display = "block";
+            document.getElementById("newtitle"+id).style.display = "none";
+        }
+
+        function changeData(id) {
+            var editorData = CKEDITOR.instances.editor{{ article.id_article }}.getData();
+            const form = document.getElementById("changearticle"+id);
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "changedtext";
+            input.value = editorData;
+            const title = document.getElementById("changedtitle"+id);
+            const articleid = document.createElement("input");
+            articleid.type = "hidden";
+            articleid.name = "articleid";
+            articleid.value = id;
+            form.appendChild(input);
+            form.appendChild(title);
+            form.appendChild(articleid);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+    </script>
 
 {% endblock obsah %}

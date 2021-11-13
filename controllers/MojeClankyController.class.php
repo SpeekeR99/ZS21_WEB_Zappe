@@ -16,8 +16,7 @@ class MojeClankyController extends AController {
         $this->processForm();
         $this->prepBasicData($pageTitle);
 
-        // Obsah stranky
-        $this->data["obsah"] = "MOJE ČLÁNKY HERE";
+        $this->data["myarticles"] = $this->db->getAllUserArticles($this->data["user"]["id_user"]);
 
         return $this->data;
     }

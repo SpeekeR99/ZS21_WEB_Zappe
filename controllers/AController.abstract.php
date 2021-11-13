@@ -141,6 +141,31 @@ abstract class AController {
                     }
                 }
             }
+            else if($_POST["action"] == "changearticle") {
+                if (isset($_POST["changedtext"]) && isset($_FILES["changedpdf"]) && isset($_POST["changedtitle"]) && isset($_POST["articleid"])) {
+                    if ($_POST["changedtext"] != "" && $_FILES["changedpdf"]["tmp_name"] != "" && $_POST["changedtitle"] != "") {
+                        $title = $_POST["changedtitle"];
+                        $abstract = $_POST["changedtext"];
+                        $targetDir = "uploads/article/";
+                        $targetFile = $targetDir . basename($_FILES['changedpdf']['name']);
+                        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+                        $uniqueName = $targetDir . time() . uniqid(rand()) . "." . $imageFileType;
+                        if ($imageFileType == "pdf") {
+                            if (move_uploaded_file($_FILES["changedpdf"]["tmp_name"], $uniqueName)) {
+                                $this->db->changeArticleDataAndPDF($_POST["articleid"], $title, $abstract, $uniqueName);
+                            } else {
+                                echo "ERROR: Nastal problém s nahráváním souboru!<br>";
+                            }
+                        } else {
+                            echo "ERROR: Nahraný soubor není typu PDF!<br>";
+                        }
+                    } else if ($_POST["changedtext"] != "" && $_POST["changedtitle"] != "") {
+                        $title = $_POST["changedtitle"];
+                        $abstract = $_POST["changedtext"];
+                        $this->db->changeArticleDataNotPDF($_POST["articleid"], $title, $abstract);
+                    }
+                }
+            }
         }
         if (isset($_POST["deleteuser"])) {
             if ($_POST["deleteuser"] != "") {

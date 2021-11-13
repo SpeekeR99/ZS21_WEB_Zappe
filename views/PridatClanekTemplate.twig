@@ -7,7 +7,7 @@
             <p>Nejste přihlášen!</p>
         </div>
     {% else %}
-        <form id="addarticleform" method="POST" enctype="multipart/form-data">
+        <form id="addarticleform" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
             <div class="container">
                 <div class="form-group">
                     <label>Napište název článku:</label><br>
@@ -19,14 +19,14 @@
                 </div><br>
                 <div class="form-group">
                     <label>Nahrajte celý článek jako pdf soubor:</label><br>
-                    <input class="form-control bg-dark text-white" type="file" name="articlepdf" accept="application/pdf">
+                    <input class="form-control bg-dark text-white" type="file" name="changedpdf" accept="application/pdf">
                 </div><br>
                 <button class="btn btn-success bg-gradient" onclick="submitData()" type="submit" name="action" value="addarticle"><span class="fa fa-arrow-circle-right"></span> Odeslat</button><br>
             </div>
         </form>
     {% endif %}
 
-    <script type="text/javascript" src="composer/vendor/ckeditor/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="composer/vendor/ckeditor/ckeditor/ckeditor.js" charset="UTF-8"></script>
 
     <script>
 

@@ -232,6 +232,68 @@ class MyDatabase {
         }
     }
 
+    /**
+     * Vrati vsechny clanky od daneho uzivatele
+     * @param int $userid Autor clanku
+     * @return array|false|null Pole clanku, ktere napsal uzivatel nebo null
+     */
+    public function getAllUserArticles(int $userid) {
+        $q = "SELECT * FROM ".TABLE_ARTICLES." WHERE id_user=$userid";
+        $out = $this->pdo->prepare($q);
+        if ($out->execute()) {
+            return $out->fetchAll();
+        } else {
+            echo "ERROR: Nepodařilo se načíst články z databáze!<br>";
+            return null;
+        }
+    }
+
+    /**
+     * Provede změny v článku, vcetne zmeny PDF souboru
+     * @param int $articleId ID clanku ktery ma byt menen
+     * @param string $title Nazev clanku po zmene
+     * @param string $abstract Abstrakt clanku po zmene
+     * @param string $filepath Nove pdf pro clanek
+     */
+    public function changeArticleDataAndPDF(int $articleId, string $title, string $abstract, string $filepath) {
+        // XSS ošetření
+        $title = htmlspecialchars($title);
+        $abstract = strip_tags($abstract);
+
+        $q = "UPDATE ".TABLE_ARTICLES." SET title=:title, abstract=:abstract, filepath=:filepath WHERE id_article=$articleId;";
+        $out = $this->pdo->prepare($q);
+        $out->bindValue(":title", $title);
+        $out->bindValue(":abstract", $abstract);
+        $out->bindValue(":filepath", $filepath);
+        if ($out->execute()) {
+            echo "Změny v článku byly uloženy.<br>";
+        } else {
+            echo "ERROR: Změny v článku se nepodařilo uložit!<br>";
+        }
+    }
+
+    /**
+     * Provede zmeny v clanku, beze zmeny cesty k PDF souboru
+     * @param int $articleId ID clanku ktery ma byt menen
+     * @param string $title Nazev clanku po zmene
+     * @param string $abstract Abstrakt clanku po zmene
+     */
+    public function changeArticleDataNotPDF(int $articleId, string $title, string $abstract) {
+        // XSS ošetření
+        $title = htmlspecialchars($title);
+        $abstract = strip_tags($abstract);
+
+        $q = "UPDATE ".TABLE_ARTICLES." SET title=:title, abstract=:abstract WHERE id_article=$articleId;";
+        $out = $this->pdo->prepare($q);
+        $out->bindValue(":title", $title);
+        $out->bindValue(":abstract", $abstract);
+        if ($out->execute()) {
+            echo "Změny v článku byly uloženy.<br>";
+        } else {
+            echo "ERROR: Změny v článku se nepodařilo uložit!<br>";
+        }
+    }
+
     /* Recenze */
 
     /**
