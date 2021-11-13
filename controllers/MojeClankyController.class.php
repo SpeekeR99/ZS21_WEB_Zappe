@@ -3,12 +3,12 @@
 require_once(DIR_CONTROLLERS."/AController.abstract.php");
 
 /**
- * Ovladac pro vypis stranky pro recenzenty
+ * Ovladac pro vypis stranky s clanky od uzivatele
  */
-class RecenzeController extends AController {
+class MojeClankyController extends AController {
 
     /**
-     * Vraci pole dat pro sablonu pro stranku pro recenzenty
+     * Vraci pole dat pro sablonu pro stranku clanku pridanych od uzivatele
      * @param string $pageTitle Nazev stranky
      * @return array Data pro twig sablonu
      */
@@ -16,9 +16,8 @@ class RecenzeController extends AController {
         $this->processForm();
         $this->prepBasicData($pageTitle);
 
-        $this->data["allusers"] = $this->db->getAllUsers();
-        $this->data["articles"] = $this->db->getAllArticlesForReview();
-        $this->data["ratings"] = $this->db->getAllRatings();
+        // Obsah stranky
+        $this->data["obsah"] = "MOJE ČLÁNKY HERE";
 
         return $this->data;
     }

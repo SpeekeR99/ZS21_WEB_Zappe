@@ -5,7 +5,7 @@
     {% if user.logged %}
         <div class="container">
             <div class="row">
-                <div class="col-6">
+                <div class="col-sm-8 col-lg-6">
                     <p><b>Login</b>: {{ user.login }} <br>
                     <b>Email</b>: {{ user.email }} <br>
                     <b>Role</b>:
@@ -14,18 +14,18 @@
                         {% elseif user.rights == 5 %} Admin
                         {% elseif user.rights == 10 %} SuperAdmin
                         {% endif %}</p><br>
-                    <p><a class="btn btn-dark bg-gradient" href="index.php?page=zmena">Změnit údaje</a></p>
                 </div>
-                <div class="col-6">
+                <div class="col-sm-4 col-lg-6">
                     <img id="profile_pic" src=
                     {% if user.picture is defined and user.picture is not null %}
                     {{ user.picture }}
                     {% else %}
                     "uploads/avatar/default_avatar.png"
                     {% endif %}
-                     alt="Not found" style="width:200px;" class="rounded-pill"> <br>
+                     alt="Not found" style="width:100%;max-width: 200px" class="rounded-pill"> <br>
                 </div>
             </div>
+            <br><p><a class="btn btn-dark bg-gradient" href="index.php?page=zmena">Změnit údaje</a></p>
         </div>
     {% else %}
         <div class="container text-center">

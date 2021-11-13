@@ -9,7 +9,7 @@
     {% elseif user.rights == 3 or user.rights == 10 %}
 
     {% for article in articles %}
-        <div class="container border-top border-bottom">
+        <div class="container border-top border-bottom border-dark bg-gradient">
             <div>
                 <h3>{{ article.title }}</h3>
             </div>
@@ -25,17 +25,26 @@
             <p><h5>Abstract:</h5>{{ article.abstract | striptags }}</p>
             <p class="text-center"><a class="btn btn-dark bg-gradient" target="_blank" href="{{ article.filepath }}">Celý článek</a></p>
             <form method="POST" id="addratingform{{ article.id_article }}">
-            <div class="container border-top border-warning"><br>
-                <div class="form-group">
-                    <label>Ohodnoťtě na stupnici 1 - 10 (1 = nejhorší, 10 = nejlepší):</label><br>
-                    <input id="ratingnum{{ article.id_article }}" class="bg-dark text-white" type="number" min="1" max="10" name="ratingnum" value="5" required>
-                </div><br>
-                <div class="form-group">
-                    <label>Poznámky:</label><br>
-                    <textarea id="comment{{ article.id_article }}" placeholder="-- Váš doplňující komentář --"></textarea>
-                </div><br>
-                <button class="btn btn-success bg-gradient" onclick="submitData({{ user.id_user }}, {{ article.id_article }})" type="submit" name="review"><span class="fa fa-arrow-circle-right"></span> Odeslat hodnocení</button><br>
-            </div><br>
+{#                {% for rating in ratings %}#}
+{#                    {% if user.id_user == rating.id_user and article.id_article == rating.id_article%}#}
+{#                        <div class="container text-success text-center">#}
+{#                            <p><b>Již hodnoceno</b></p>#}
+{#                        </div>#}
+{#                    {% else %}#}
+                        <div class="container"><br>
+                            <div class="form-group">
+                                <label>Ohodnoťtě na stupnici 1 - 10 (1 = nejhorší, 10 = nejlepší):</label><br>
+                                <input id="ratingnum{{ article.id_article }}" class="bg-dark text-white" type="number" min="1" max="10" name="ratingnum" value="5" required>
+                            </div><br>
+                            <div class="form-group">
+                                <label>Poznámky:</label><br>
+                                <textarea id="comment{{ article.id_article }}" placeholder="-- Váš doplňující komentář --"></textarea>
+                            </div><br>
+                            <button class="btn btn-success bg-gradient" onclick="submitData({{ user.id_user }}, {{ article.id_article }})" type="submit" name="review"><span class="fa fa-arrow-circle-right"></span> Odeslat hodnocení</button><br>
+                        </div><br>
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+
             </form>
         </div>
     {% endfor %}

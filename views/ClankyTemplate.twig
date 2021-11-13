@@ -2,20 +2,20 @@
 
 {% block obsah %}
 
-    {% if not user.logged %}
-        <div class="container text-center">
-            <p>Nejste přihlášen!</p>
-        </div>
-    {% else %}
+{#    {% if not user.logged %}#}
+{#        <div class="container text-center">#}
+{#            <p>Nejste přihlášen!</p>#}
+{#        </div>#}
+{#    {% else %}#}
         <div class="container">
             <p><a class="btn btn-success btn-lg bg-gradient" href="index.php?page=novyclanek">Přidat nový článek</a></p>
         </div>
         {% for article in allarticles %}
         {% if article.status == "prijato" or user.rights >= 5 %}
         {% if article.status == "zamitnuto" and user.rights >= 5 %}
-        <div class="container border-top border-bottom opacity-50">
+        <div id="article" class="container border-top border-bottom border-dark opacity-50 bg-gradient">
         {% else %}
-        <div class="container border-top border-bottom">
+        <div id="article" class="container border-top border-bottom border-dark bg-gradient">
         {% endif %}
             <div class="row">
                 {% if user.rights < 5 %}
@@ -56,7 +56,7 @@
                         </h4>
                     </div>
                 {% else %}
-                    <div class="col-md-6 col-lg-10">
+                    <div class="col-md-6 col-lg-8">
                         <h4>
                             Autor: {% for oneuser in allusers %}
                                     {% if oneuser.id_user == article.id_user %}
@@ -65,7 +65,24 @@
                                     {% endfor %}
                         </h4>
                     </div>
-                    <div class="col-md-6 col-lg-2">
+                    <div class="col-md-3 col-lg-2">
+                        Hodnocení:
+                        {% set pocet = 0 %}
+                        {% set hodnoceni = 0 %}
+                        {% for rating in allratings %}
+                            {% if article.id_article == rating.id_article %}
+                                {% set pocet = pocet + 1 %}
+                                {% set hodnoceni = hodnoceni + rating.rating %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if pocet > 0 %}
+                            {% set prumer = hodnoceni / pocet %}
+                        {% else %}
+                            {% set prumer = 0 %}
+                        {% endif %}
+                        {{ prumer | number_format(2) }} / 10
+                    </div>
+                    <div class="col-md-3 col-lg-2">
                         <p class="text-end">
                             <button class="btn-danger btn-sm bg-gradient" onclick="articleDelete({{ article.id_article }})" type="submit" name="action" value="deletearticle">
                                 <span class="fa fa-ban"></span> Smazat</button></p>
@@ -77,8 +94,7 @@
         </div>
         {% endif %}
         {% endfor %}
-    {% endif %}
-
+{#    {% endif %}#}
     <script>
 
         function articleDelete(id) {

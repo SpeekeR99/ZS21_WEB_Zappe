@@ -114,6 +114,11 @@ class MyDatabase {
      * @param int $userId Id uživatele, který má být smazán
      */
     public function deleteUser(int $userId) {
+        // Nejprve je potřeba smazat hodnoceni spojene s uzivatelem
+        $q = "DELETE FROM ".TABLE_RATINGS." WHERE id_user=$userId";
+        $out = $this->pdo->prepare($q);
+        $out->execute();
+
         $q = "DELETE FROM ".TABLE_USERS." WHERE id_user=$userId";
         $out = $this->pdo->prepare($q);
         if ($out->execute()) {
@@ -171,9 +176,14 @@ class MyDatabase {
 
     /**
      * Smaže clanek z databáze
-     * @param int $userId Id clanku, který má být smazán
+     * @param int $articleId Id clanku, který má být smazán
      */
     public function deleteArticle(int $articleId) {
+        // Nejprve je potřeba smazat hodnoceni spojene s clankem
+        $q = "DELETE FROM ".TABLE_RATINGS." WHERE id_article=$articleId";
+        $out = $this->pdo->prepare($q);
+        $out->execute();
+
         $q = "DELETE FROM ".TABLE_ARTICLES." WHERE id_article=$articleId";
         $out = $this->pdo->prepare($q);
         if ($out->execute()) {
@@ -260,6 +270,21 @@ class MyDatabase {
             echo "Přidání hodnocení bylo úspěšné.<br>";
         } else {
             echo "ERROR: Přidání hodnocení se nepodařilo!<br>";
+        }
+    }
+
+    /**
+     * Vraci pole vsech hodnoceni z DB
+     * @return array|false|null pole hodnoceni nebo null
+     */
+    public function getAllRatings() {
+        $q = "SELECT * FROM ".TABLE_RATINGS;
+        $out = $this->pdo->prepare($q);
+        if ($out->execute()) {
+            return $out->fetchAll();
+        } else {
+            echo "ERROR: Nepodařilo se načíst hodnocení z databáze!<br>";
+            return null;
         }
     }
 

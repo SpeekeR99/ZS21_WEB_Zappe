@@ -18,6 +18,7 @@ class ClankyController extends AController {
 
         $this->data["allusers"] = $this->db->getAllUsers();
         $this->data["allarticles"] = $this->db->getAllArticles();
+        $this->data["allratings"] = $this->db->getAllRatings();
 
         return $this->data;
     }
