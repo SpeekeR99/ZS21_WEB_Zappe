@@ -82,6 +82,13 @@ class MyDatabase {
      * @param string $filepath Cesta k profilovemu obrazku, ktery musel projit uploadem na server
      */
     public function changeUserProfilePic(int $userId, string $filepath) {
+        // Odstranění stare profilove fotky ze serveru
+        $q = "SELECT * FROM ".TABLE_USERS." WHERE id_user=$userId";
+        $out = $this->pdo->prepare($q);
+        $out->execute();
+        $user = $out->fetchAll()[0];
+        if(file_exists($user["picture"])) unlink($user["picture"]);
+
         $q = "UPDATE ".TABLE_USERS." SET picture=:picture WHERE id_user=$userId;";
         $out = $this->pdo->prepare($q);
         $out->bindValue(":picture", $filepath);
@@ -124,7 +131,7 @@ class MyDatabase {
         $out = $this->pdo->prepare($q);
         $out->execute();
         $user = $out->fetchAll()[0];
-        unlink($user["picture"]);
+        if(file_exists($user["picture"])) unlink($user["picture"]);
 
         $q = "DELETE FROM ".TABLE_USERS." WHERE id_user=$userId";
         $out = $this->pdo->prepare($q);
