@@ -16,7 +16,10 @@ class MojeClankyController extends AController {
         $this->processForm();
         $this->prepBasicData($pageTitle);
 
-        $this->data["myarticles"] = $this->db->getAllUserArticles($this->data["user"]["id_user"]);
+        $loggeduser = $this->loginManager->getLoggedUserData();
+        if($loggeduser != null and key_exists("id_user", $loggeduser)) {
+            $this->data["myarticles"] = $this->db->getAllUserArticles($loggeduser["id_user"]);
+        }
 
         return $this->data;
     }
