@@ -119,6 +119,13 @@ class MyDatabase {
         $out = $this->pdo->prepare($q);
         $out->execute();
 
+        // Odstranění profilove fotky ze serveru
+        $q = "SELECT * FROM ".TABLE_USERS." WHERE id_user=$userId";
+        $out = $this->pdo->prepare($q);
+        $out->execute();
+        $user = $out->fetchAll()[0];
+        unlink($user["picture"]);
+
         $q = "DELETE FROM ".TABLE_USERS." WHERE id_user=$userId";
         $out = $this->pdo->prepare($q);
         if ($out->execute()) {
@@ -183,6 +190,13 @@ class MyDatabase {
         $q = "DELETE FROM ".TABLE_RATINGS." WHERE id_article=$articleId";
         $out = $this->pdo->prepare($q);
         $out->execute();
+
+        // Odstranění PDF souboru ze serveru
+        $q = "SELECT * FROM ".TABLE_ARTICLES." WHERE id_article=$articleId";
+        $out = $this->pdo->prepare($q);
+        $out->execute();
+        $article = $out->fetchAll()[0];
+        unlink($article["filepath"]);
 
         $q = "DELETE FROM ".TABLE_ARTICLES." WHERE id_article=$articleId";
         $out = $this->pdo->prepare($q);
@@ -259,6 +273,13 @@ class MyDatabase {
         // XSS ošetření
         $title = htmlspecialchars($title);
         $abstract = strip_tags($abstract);
+
+        // Odstranění PDF souboru ze serveru
+        $q = "SELECT * FROM ".TABLE_ARTICLES." WHERE id_article=$articleId";
+        $out = $this->pdo->prepare($q);
+        $out->execute();
+        $article = $out->fetchAll()[0];
+        unlink($article["filepath"]);
 
         $q = "UPDATE ".TABLE_ARTICLES." SET title=:title, abstract=:abstract, filepath=:filepath WHERE id_article=$articleId;";
         $out = $this->pdo->prepare($q);
