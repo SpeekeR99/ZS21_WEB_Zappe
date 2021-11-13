@@ -126,6 +126,15 @@ class MyDatabase {
         $out = $this->pdo->prepare($q);
         $out->execute();
 
+        // Nejprve je potřeba smazat clanky spojene s uzivatelem
+        $q = "SELECT * FROM ".TABLE_ARTICLES." WHERE id_user=$userId";
+        $out = $this->pdo->prepare($q);
+        $out->execute();
+        $articles = $out->fetchAll();
+        foreach ($articles as $article) {
+            $this->deleteArticle($article["id_article"]);
+        }
+
         // Odstranění profilove fotky ze serveru
         $q = "SELECT * FROM ".TABLE_USERS." WHERE id_user=$userId";
         $out = $this->pdo->prepare($q);

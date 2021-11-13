@@ -52,7 +52,7 @@
     <script>
 
         function userDelete(id) {
-            var result = confirm("Opravdu chcete uživatele smazat?");
+            var result = confirm("Opravdu chcete uživatele smazat? Smažou se tím i jeho články a případná hodnocení!");
             if (result) {
                 const form = document.createElement("form");
                 form.method = "POST";
