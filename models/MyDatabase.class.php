@@ -387,6 +387,27 @@ class MyDatabase {
         }
     }
 
+    /**
+     * Zmeni hodnoceni od uzivatele an dany clanek
+     * @param int $ratingid ID ulozeneho hodnoceni
+     * @param int $ratingnum Nove ciselne ohodnoceni
+     * @param string $text Novy komentar
+     */
+    public function changeRating(int $ratingid, int $ratingnum, string $text) {
+        // XSS
+        $text = strip_tags($text);
+
+        $q = "UPDATE ".TABLE_RATINGS." SET rating=:rating, comment=:comment WHERE id_rating=$ratingid;";
+        $out = $this->pdo->prepare($q);
+        $out->bindValue(":rating", $ratingnum);
+        $out->bindValue(":comment", $text);
+        if ($out->execute()) {
+            echo "Změna hodnocení byla úspěšná.<br>";
+        } else {
+            echo "ERROR: Změna hodnocení se nezdařila.<br>";
+        }
+    }
+
 }
 
 ?>

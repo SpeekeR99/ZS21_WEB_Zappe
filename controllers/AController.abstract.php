@@ -166,6 +166,11 @@ abstract class AController {
                     }
                 }
             }
+            else if($_POST["action"] == "changerating") {
+                if (isset($_POST["newratingid"]) && isset($_POST["newcomment"]) && isset($_POST["newratingnum"])) {
+                    $this->db->changeRating($_POST["newratingid"], $_POST["newratingnum"], $_POST["newcomment"]);
+                }
+            }
         }
         if (isset($_POST["deleteuser"])) {
             if ($_POST["deleteuser"] != "") {

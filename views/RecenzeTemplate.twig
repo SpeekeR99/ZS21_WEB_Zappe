@@ -10,10 +10,10 @@
 
     {% for article in articles %}
         <div class="container border-top border-bottom border-dark bg-gradient">
-            <div>
+            <div class="container">
                 <h3>{{ article.title }}</h3>
             </div>
-            <div>
+            <div class="container">
                 <h4>
                     Autor: {% for oneuser in allusers %}
                         {% if oneuser.id_user == article.id_user %}
@@ -22,18 +22,49 @@
                     {% endfor %}
                 </h4>
             </div>
-            <p><h5>Abstract:</h5>{{ article.abstract | raw }}</p>
-            <p class="text-center"><a class="btn btn-dark bg-gradient" target="_blank" href="{{ article.filepath }}">Celý článek</a></p>
+            <div class="container">
+                <p><h5>Abstract:</h5>{{ article.abstract | raw }}</p>
+            </div>
+            <p class="text-center container"><a class="btn btn-dark bg-gradient" target="_blank" href="{{ article.filepath }}">Celý článek</a></p>
             {% set alreadyrated = 0 %}
+            {% set userrating = 0 %}
             {% for rating in ratings %}
                 {% if user.id_user == rating.id_user and article.id_article == rating.id_article %}
                     {% set alreadyrated = 1 %}
+                    {% set userrating = rating %}
                 {% endif %}
             {% endfor %}
             {% if alreadyrated == 1 %}
-                <div class="container"><br>
+                <div class="container" id="divdiky{{ userrating.id_rating }}"><br>
                     Tento článek jste už hodnotil!<br><b>Děkujeme</b>
                 </div><br>
+                <div class="container" id="diveditbutton{{ userrating.id_rating }}">
+                    <p><button class="btn-dark bg-gradient" onclick="edit({{ userrating.id_rating }})" type="submit">
+                            <span class="fa fa-pencil-square-o"></span> Změnit hodnocení...</button></p>
+                </div>
+                <form id="changerating{{ userrating.id_rating }}" method="POST">
+                    <div class="container" id="maindivhidden{{ userrating.id_rating }}" style="display: none">
+                        <div class="form-group" id="divnumrating{{ userrating.id_rating }}" style="display: none">
+                            <label>Ohodnoťtě na stupnici 1 - 10 (1 = nejhorší, 10 = nejlepší):</label><br>
+                            <input id="newnumrating{{ userrating.id_rating }}" class="bg-dark text-white" type="number"
+                                   min="1" max="10" name="newratingnum" value="{{ userrating.rating }}" required>
+                        </div><br>
+                        <div class="form-group" id="divtextrating{{ userrating.id_rating }}" style="display: none">
+                            <label>Poznámky:</label><br>
+                            <textarea id="newtextrating{{ userrating.id_rating }}" placeholder="-- Váš doplňující komentář --">{{ userrating.comment }}</textarea>
+                        </div><br>
+                        <div id="finalbuttons{{ userrating.id_rating }}" style="display: none">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-3 col-lg-1">
+                                    <button class="btn btn-danger bg-gradient" onclick="back({{ userrating.id_rating }})" type="submit"><span class="fa fa-arrow-left"></span> Zpět</button>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-2 text-end">
+                                    <button class="btn btn-success bg-gradient" onclick="changeData({{ userrating.id_rating }})" type="submit" name="action" value="changerating"><span class="fa fa-arrow-circle-right"></span> Uložit změny</button>
+                                </div>
+                            </div>
+                        </div><br>
+                    </div>
+                </form>
             {% else %}
                 <form method="POST" id="addratingform{{ article.id_article }}">
                     <div class="container"><br>
@@ -62,12 +93,12 @@
 
         function submitData(userid, articleid) {
             var originaltext = $("#comment"+articleid).val();
-            // originaltext = originaltext.val();
             const form = document.getElementById("addratingform"+articleid);
             const text = document.createElement("input");
             text.type = "hidden";
             text.name = "ratingtext";
             text.value = originaltext;
+            console.log(text.value);
             const iduser = document.createElement("input");
             iduser.type = "hidden";
             iduser.name = "ratinguserid";
@@ -80,6 +111,40 @@
             form.appendChild(iduser);
             form.appendChild(idarticle);
             document.body.appendChild(form);
+            form.submit();
+        }
+
+        function edit(id) {
+            document.getElementById("diveditbutton"+id).style.display = "none";
+            document.getElementById("divdiky"+id).style.display = "none";
+            document.getElementById("maindivhidden"+id).style.display = "block";
+            document.getElementById("divnumrating"+id).style.display = "block";
+            document.getElementById("divtextrating"+id).style.display = "block";
+            document.getElementById("finalbuttons"+id).style.display = "block";
+        }
+
+        function back(id) {
+            document.getElementById("diveditbutton"+id).style.display = "block";
+            document.getElementById("divdiky"+id).style.display = "block";
+            document.getElementById("maindivhidden"+id).style.display = "none";
+            document.getElementById("divnumrating"+id).style.display = "none";
+            document.getElementById("divtextrating"+id).style.display = "none";
+            document.getElementById("finalbuttons"+id).style.display = "none";
+        }
+
+        function changeData(id) {
+            var newtext = document.getElementById("newtextrating"+id).value;
+            const form = document.getElementById("changerating"+id);
+            const ratingid = document.createElement("input");
+            ratingid.type = "hidden";
+            ratingid.name = "newratingid";
+            ratingid.value = id;
+            const text = document.createElement("input");
+            text.type = "hidden";
+            text.name = "newcomment";
+            text.value = newtext;
+            form.appendChild(ratingid);
+            form.appendChild(text);
             form.submit();
         }
 
