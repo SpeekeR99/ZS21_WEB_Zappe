@@ -151,6 +151,17 @@ class MyDatabase {
         }
     }
 
+    public function changeUserRights(int $userid, int $newrights) {
+        $q = "UPDATE ".TABLE_USERS." SET rights=:newrights WHERE id_user=$userid;";
+        $out = $this->pdo->prepare($q);
+        $out->bindValue(":newrights", $newrights);
+        if ($out->execute()) {
+            echo "Změna práv byla úspěšná.<br>";
+        } else {
+            echo "ERROR: Nepodařilo se změnit práva uživatele!<br>";
+        }
+    }
+
     /* Články */
 
     /**

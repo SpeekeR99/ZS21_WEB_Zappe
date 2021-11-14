@@ -30,16 +30,51 @@
                         <td>{{ oneuser.login | raw }}</td>
                         <td>{{ oneuser.email | raw }}</td>
                         <td>
-                            {% if oneuser.rights == 1 %} Autor
-                            {% elseif oneuser.rights == 3 %} Recenzent
-                            {% elseif oneuser.rights == 5 %} Admin
-                            {% elseif oneuser.rights == 10 %} SuperAdmin
+                            {% if oneuser.rights == 10 %} SuperAdmin
+                            {% elseif oneuser.rights == 5 and user.rights == 5 %} Admin
+                            {% elseif user.rights == 5 %}
+                                <select class="custom-select bg-dark text-white" id="inputadmin{{ oneuser.id_user }}">
+                                {% if oneuser.rights == 1 %}
+                                    <option value="3">Recenzent</option>
+                                    <option value="1" selected>Autor</option>
+                                {% elseif oneuser.rights == 3 %}
+                                    <option value="3" selected>Recenzent</option>
+                                    <option value="1">Autor</option>
+                                {% endif %}
+                                </select>
+                            {% elseif user.rights == 10 %}
+                            <select class="custom-select bg-dark text-white" id="inputsuperadmin{{ oneuser.id_user }}">
+                                {% if oneuser.rights == 1 %}
+                                    <option value="5">Admin</option>
+                                    <option value="3">Recenzent</option>
+                                    <option value="1" selected>Autor</option>
+                                {% elseif oneuser.rights == 3 %}
+                                    <option value="5">Admin</option>
+                                    <option value="3" selected>Recenzent</option>
+                                    <option value="1">Autor</option>
+                                {% elseif oneuser.rights == 5 %}
+                                    <option value="5" selected>Admin</option>
+                                    <option value="3">Recenzent</option>
+                                    <option value="1">Autor</option>
+                                {% endif %}
+                            </select>
                             {% endif %}
                         </td>
                         <td class="text-center">
                             {% if oneuser.rights == 10 and user.rights == 10 %} {# Osetreni aby se nezabanoval sam sebe superadmin #}
                             {% elseif oneuser.rights < 5 or user.rights == 10 %}
-                                <button class="btn-danger btn-sm bg-gradient" onclick="userDelete({{ oneuser.id_user }})" type="submit" name="action" value="deleteuser"><span class="fa fa-ban"></span> Smazat</button>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <button class="btn-success btn-sm bg-gradient" onclick="changeData({{ user.rights }}, {{ oneuser.id_user }})"
+                                                type="submit" name="action" value="changerights">
+                                            <span class="fa fa-arrow-circle-right"></span> Uložit změny</button>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <button class="btn-danger btn-sm bg-gradient" onclick="userDelete({{ oneuser.id_user }})"
+                                                type="submit" name="action" value="deleteuser">
+                                            <span class="fa fa-ban"></span> Smazat</button>
+                                    </div>
+                                </div>
                             {% endif %}
                         </td>
                     </tr>
@@ -64,6 +99,29 @@
                 document.body.appendChild(form);
                 form.submit();
             }
+        }
+
+        function changeData(rights, id) {
+            const form = document.createElement("form");
+            form.method = "POST";
+            const userid = document.createElement("input");
+            userid.type = "hidden";
+            userid.name = "changeuserid";
+            userid.value = id;
+            const newrole = document.createElement("input");
+            newrole.type = "hidden";
+            newrole.name = "changedrole";
+            var whoinput;
+            if (rights === 10) {
+                whoinput = document.getElementById("inputsuperadmin"+id);
+            } else if ( rights === 5) {
+                whoinput = document.getElementById("inputadmin"+id);
+            }
+            newrole.value = whoinput.options[whoinput.selectedIndex].value;
+            form.appendChild(userid);
+            form.appendChild(newrole);
+            document.body.appendChild(form);
+            form.submit();
         }
 
     </script>

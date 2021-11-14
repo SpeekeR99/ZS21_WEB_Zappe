@@ -172,6 +172,11 @@ abstract class AController {
                 }
             }
         }
+        if (isset($_POST["changeuserid"]) && isset($_POST["changedrole"])) {
+            $id = $_POST["changeuserid"];
+            $rights = $_POST["changedrole"];
+            $this->db->changeUserRights($id, $rights);
+        }
         if (isset($_POST["deleteuser"])) {
             if ($_POST["deleteuser"] != "") {
                 $this->db->deleteUser($_POST["deleteuser"]);
