@@ -106,7 +106,7 @@ class MyDatabase {
      * @return array|false|null Pole všech uživatelů nebo null, nepovede-li se
      */
     public function getAllUsers() {
-        $q = "SELECT * FROM ".TABLE_USERS;
+        $q = "SELECT * FROM ".TABLE_USERS." ORDER BY rights DESC";
         $out = $this->pdo->prepare($q);
         if ($out->execute()) {
             return $out->fetchAll();
